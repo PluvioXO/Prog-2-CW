@@ -1,13 +1,19 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Webpage title</title>
+    <title>Personal Informatics App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='landing.css') }}">
 </head>
 <body>
-    <h1>Webpage title</h1>
-    <a href="{{ url_for('login') }}">Login</a>
-    <a href="{{ url_for('signup') }}">Signup</a>
+    <div class="container">
+        <h1>Welcome to webpage</h1>
+        <p>filler text</p>
+        <div class="button-container">
+            <a href="{{ url_for('login') }}" class="btn">Login</a>
+            <a href="{{ url_for('signup') }}" class="btn">Signup</a>
+        </div>
+    </div>
 </body>
 </html>

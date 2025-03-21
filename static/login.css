@@ -1,55 +1,100 @@
+/* General Page Styling */
 body {
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f4f4f4;
+    background: linear-gradient(to right, #0099ff, #33ccff);
+    margin: 0;
 }
+
+/* Login Container */
 .login-container {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     text-align: center;
+    width: 90%;
+    max-width: 350px;
 }
+
+/* Heading */
+h2 {
+    margin-bottom: 20px;
+    color: #007acc;
+    font-size: 24px;
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Input Fields */
 input {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     margin: 10px 0;
     border: 1px solid #ccc;
     border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+    transition: border 0.3s;
 }
-button {
+
+input:focus {
+    border-color: #007acc;
+}
+
+/* Buttons */
+button, .btn {
     width: 100%;
-    padding: 10px;
-    background: #28a745;
-    color: white;
+    padding: 12px;
     border: none;
     border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
-    margin-bottom: 15px;
+    transition: 0.3s;
+    margin-top: 10px;
 }
+
+button {
+    background: #007acc;
+    color: white;
+}
+
 button:hover {
-    background: #218838;
+    background: #005faa;
 }
 
 .btn {
-    width: 100%;
-    padding: 10px;
-    background: #28a745;
+    background: white;
+    color: #007acc;
+    border: 2px solid #007acc;
+}
+
+.btn:hover {
+    background: #007acc;
     color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-bottom: 15px;
+}
+
+/* Signup Link */
+p {
+    margin-top: 15px;
     font-size: 14px;
 }
 
-a {
+.signup-link {
+    color: #007acc;
     text-decoration: none;
+    font-weight: bold;
 }
 
-a:hover {
-    background: #218838;
+.signup-link:hover {
+    text-decoration: underline;
 }
