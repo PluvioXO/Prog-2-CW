@@ -8,7 +8,7 @@ key: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI
 supabase: Client = create_client(url, key)
 
 def Login(eml : str, pss : str) -> bool:
-    #Gives the given encrypted password as a hex hash. 
+    #UTF-8 Pass -> Supabase (Hash) -> Selection check. 
     print(eml,pss)
     try:
         response = supabase.auth.sign_in_with_password(
