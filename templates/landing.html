@@ -29,8 +29,8 @@
                 <div class="form-box hidden" id="signup-box">
                     <h2>Signup</h2>
                     <form action="{{ url_for('signup') }}" method="POST">
-                        <input type="text" name="username" placeholder="Username" required>
                         <input type="email" name="email" placeholder="Email" required>
+                        <p>len(pswrd) > 6, please style this info in</p>
                         <input type="password" name="password" placeholder="Password" required>
                         <input type="password" name="confirm_password" placeholder="Confirm Password" required>
                         <button type="submit">Signup</button>

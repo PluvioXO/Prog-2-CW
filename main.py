@@ -23,6 +23,7 @@ def Login(eml : str, pss : str) -> bool:
     return False
 
 def SignUp(pss : str, eml: str) -> bool:
+    # Supabase handles all password hashing serverside. 
     try:
         response = supabase.auth.sign_up(
         {
@@ -31,9 +32,10 @@ def SignUp(pss : str, eml: str) -> bool:
         }
         )
         print(response)
+        return True 
     except Exception as e:
         print(e)
-    return False
+        return False
 
 app = Flask(__name__)
 
@@ -59,8 +61,9 @@ def signup() -> Flask.route:
         password = request.form.get("password")
         confirm_pword = request.form.get("confirm_password")
         email = request.form.get("email")
-        if SignUp(password, email) and password == confirm_pword:
-            return redirect(url_for('/auth/login'))
+        #Previous logic statement allows a user to signup where conf_pswrd != pswrd. Also supabase requires len(pswrd) > 6. 
+        if (password == confirm_pword and len(password) > 6) and SignUp(password, email):
+            return redirect(url_for('/login'))
     return render_template('auth/register.html')
 
 @app.route('/dashboard')
