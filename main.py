@@ -62,5 +62,6 @@ def signup():
             return 0;
     return render_template('auth/register.html')
 
+#Main
 if __name__ == '__main__':
     app.run(debug=True)
