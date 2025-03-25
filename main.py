@@ -8,6 +8,12 @@ supabase: Client = create_client(url, key)
 user = User()
 user_data = {}
 
+#CheckAuth is a simple helper function that just checks the users authentication session is valid. Used to reduce code redundancy && repitition.
+def CheckAuth() -> bool:
+    if supabase.auth.get_session() != None: 
+        return True
+    return False
+
 def Login(eml : str, pss : str) -> bool:
     try:
         response = supabase.auth.sign_in_with_password(
@@ -16,7 +22,9 @@ def Login(eml : str, pss : str) -> bool:
         "password": pss,
         }
         )
-        print(response)
+        #Once logged in user session data obtainable by: supabase.auth.get_session()
+        #supabase.auth.get_session() => [USER DATA || None], which allows for easy auth. 
+        print("Login Successful")
         return True
     except Exception as e:
         print(e)
@@ -31,7 +39,8 @@ def SignUp(pss : str, eml: str) -> bool:
         "password": pss,
         }
         )
-        print(response)
+        # print(response)
+        print("Signup Successful")
         return True 
     except Exception as e:
         print(e)
@@ -68,33 +77,55 @@ def signup() -> Flask.route:
 
 @app.route('/dashboard')
 def dashboard() -> Flask.route:
-    return render_template('components/dashboard.html')
+    if CheckAuth():
+        return render_template('components/dashboard.html')
+    else:
+        return home()
 
 @app.route('/profile')
 def profile() -> Flask.route:
-    return render_template('components/profile.html')
+    if CheckAuth():
+        return render_template('components/profile.html')
+    return home()
 
 @app.route('/input')
 def input() -> Flask.route:
-    return render_template('components/input.html')
+    if CheckAuth():
+        return render_template('components/input.html')
+    return home()
 
 @app.route('/goals')
 def goals() -> Flask.route:
-    return render_template('components/goals.html')
+    if CheckAuth():
+        return render_template('components/goals.html')
+    return home()
 
 @app.route('/submit_data', methods=['POST'])
 def submit_data() -> Flask.route:
-    global user_data
-    user_data = {
-        "sleep": request.form.get("sleep"),
-        "mood": request.form.get("mood"),
-        "screen_time": request.form.get("screen_time"),
-        "water": request.form.get("water"),
-        "steps": request.form.get("steps"),
-        "work": request.form.get("work"),
-    }
-    print(user_data)
-    return redirect(url_for('dashboard'))
+    if CheckAuth():
+        global user_data
+        user_data = {
+            "sleep": request.form.get("sleep"),
+            "mood": request.form.get("mood"),
+            "screen_time": request.form.get("screen_time"),
+            "water": request.form.get("water"),
+            "steps": request.form.get("steps"),
+            "work": request.form.get("work"),
+        }
+        print(user_data)
+        return redirect(url_for('dashboard'))
+    return home()
+
+#CheckAuth is not needed for this method by default. 
+@app.route('/logout', methods=['GET', 'POST'])
+def logout() -> Flask.route:
+    try:
+        supabase.auth.sign_out() #Signs user out of their account and removes session
+        print("Logout Successful")
+        return home() #Sends back to landing page 
+    except:
+        return redirect(url_for('profile'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
