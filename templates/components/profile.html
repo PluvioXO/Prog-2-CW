@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile & Settings</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+</head>
+<body>
+    <div class="sidebar">
+        <h2 class="sidebar-title">Menu</h2>
+        <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
+        <a href="{{ url_for('input') }}" class="nav-link">Input Data</a>
+        <a href="{{ url_for('profile') }}" class="nav-link active">Profile</a>
+    </div>
+
+    <div class="profile-container">
+        <h1>Profile & Settings</h1>
+
+        <div class="profile-card">
+            <h2>Account Information</h2>
+            <div class="field">
+                <label>Email:</label>
+                <p class="info-text">user@example.com</p>
+            </div>
+
+            <div class="field">
+                <label>Username:</label>
+                <input type="text" id="username" value="User123">
+            </div>
+
+            <div class="field">
+                <label>Change Password:</label>
+                <input type="password" id="password" placeholder="New Password">
+            </div>
+
+            <div class="theme-switch">
+                <label for="darkModeToggle">Dark Mode:</label>
+                <input type="checkbox" id="darkModeToggle">
+            </div>
+
+            <a class='save-btn' href="{{ url_for('dashboard') }}">Save Changes</a>
+            <a class='logout-btn' href="{{ url_for('home') }}">Logout</a>
+        </div>
+    </div>
+</body>
+</html>
+
