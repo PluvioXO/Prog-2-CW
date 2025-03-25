@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/goals.css') }}">
+    <title>Goals</title>
+</head>
+<body>
+    <div class="sidebar">
+        <h2 class="sidebar-title">Menu</h2>
+        <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
+        <a href="{{ url_for('input') }}" class="nav-link">Input Data</a>
+        <a href="{{ url_for('goals') }}" class="nav-link active">Goals</a>
+        <a href="{{ url_for('profile') }}" class="nav-link profile-link">Profile</a>
+    </div>
+
+    <div class="main-container">
+        <h1 class="goals-heading">Goals</h1>
+
+        <div class="goals-container">
+            <div class="goal">Goal 1</div>
+            <div class="goal">Goal 2</div>
+            <div class="goal">Goal 3</div>
+            <div class="goal">Goal 4</div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from supabase import create_client, Client
 from Classes.User import User
-import json 
 
 url: str = "https://pawhaidfyqohrcjbuuna.supabase.co"
 key: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBhd2hhaWRmeXFvaHJjamJ1dW5hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDIzNzMzODksImV4cCI6MjA1Nzk0OTM4OX0.KWhRk_4rQOUowVCMTe93Au_KX3XHsEPFzIdXg0XVbKs"
@@ -41,11 +40,11 @@ def SignUp(pss : str, eml: str) -> bool:
 app = Flask(__name__)
 
 @app.route('/', methods = ["GET"])
-def home():
+def home() -> Flask.route:
     return render_template('landing.html')
 
 @app.route('/login', methods=["GET", "POST"])
-def login():
+def login() -> Flask.route:
     global user, user_data
     if request.method == 'POST':
         email = request.form.get("email")
@@ -57,7 +56,7 @@ def login():
     return render_template("auth/login.html")
 
 @app.route('/register', methods = ["GET", "POST"])
-def signup():
+def signup() -> Flask.route:
     if request.method == 'POST':
         password = request.form.get("password")
         confirm_pword = request.form.get("confirm_password")
@@ -67,19 +66,23 @@ def signup():
     return render_template('auth/register.html')
 
 @app.route('/dashboard')
-def dashboard():
+def dashboard() -> Flask.route:
     return render_template('components/dashboard.html')
 
 @app.route('/profile')
-def profile():
+def profile() -> Flask.route:
     return render_template('components/profile.html')
 
 @app.route('/input')
-def input():
+def input() -> Flask.route:
     return render_template('components/input.html')
 
+@app.route('/goals')
+def goals() -> Flask.route:
+    return render_template('components/goals.html')
+
 @app.route('/submit_data', methods=['POST'])
-def submit_data():
+def submit_data() -> Flask.route:
     global user_data
     user_data = {
         "sleep": request.form.get("sleep"),

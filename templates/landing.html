@@ -2,18 +2,44 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Personal Informatics App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">
+    <script defer src="{{ url_for('static', filename='js/landing.js') }}"></script>
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to webpage</h1>
-        <p>filler text</p>
-        <div class="button-container">
-            <a href="{{ url_for('login') }}" class="btn">Login</a>
-            <a href="{{ url_for('signup') }}" class="btn">Signup</a>
+        <div class="left-side">
+            <h1>Product Name</h1>
+            <p>Description</p>
+        </div>
+
+        <div class="right-side">
+            <div class="form-container">
+                <div class="form-box" id="login-box">
+                    <h2>Login</h2>
+                    <form action="{{ url_for('login') }}" method="POST">
+                        <input type="email" name="email" placeholder="Email" required>
+                        <input type="password" name="password" placeholder="Password" required>
+                        <button type="submit">Login</button>
+                        <p>Don't have an account? <a href="#" id="show-signup">Sign up</a></p>
+                    </form>
+                </div>
+
+                <div class="form-box hidden" id="signup-box">
+                    <h2>Signup</h2>
+                    <form action="{{ url_for('signup') }}" method="POST">
+                        <input type="text" name="username" placeholder="Username" required>
+                        <input type="email" name="email" placeholder="Email" required>
+                        <input type="password" name="password" placeholder="Password" required>
+                        <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+                        <button type="submit">Signup</button>
+                        <p>Already have an account? <a href="#" id="show-login">Login</a></p>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </body>
 </html>
+
