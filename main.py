@@ -2,14 +2,13 @@ from flask import Flask, render_template, request, redirect, url_for
 from supabase import create_client, Client
 from Classes.User import User
 
-url: str = "https://pawhaidfyqohrcjbuuna.supabase.co"
-key: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBhd2hhaWRmeXFvaHJjamJ1dW5hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDIzNzMzODksImV4cCI6MjA1Nzk0OTM4OX0.KWhRk_4rQOUowVCMTe93Au_KX3XHsEPFzIdXg0XVbKs"
+url: str = "https://xyoqfdhomalgeerfutzf.supabase.co"
+key: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh5b3FmZGhvbWFsZ2VlcmZ1dHpmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI5Mzk3OTAsImV4cCI6MjA1ODUxNTc5MH0.7jpSwPkLXXse1nc4Us9Kv6wf9qixMntB6i21Jxo9f_Q"
 supabase: Client = create_client(url, key)
 user = User()
 user_data = {}
 
 def Login(eml : str, pss : str) -> bool:
-    #UTF-8 Pass -> Supabase (Hash) -> Selection check.
     try:
         response = supabase.auth.sign_in_with_password(
         {
@@ -24,7 +23,6 @@ def Login(eml : str, pss : str) -> bool:
     return False
 
 def SignUp(pss : str, eml: str) -> bool:
-    #Currently need database to except a store of hash for security reasons
     try:
         response = supabase.auth.sign_up(
         {
