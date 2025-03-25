@@ -3,9 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/input.css') }}">
     <title>Document</title>
 </head>
 <body>
+    <h1>Input Data</h1>
+    <div class="form-container">
+        <form action="{{ url_for('submit_data') }}" method="POST">
+            <label for="sleep">Sleep (Hours):</label>
+            <input type="number" name="sleep" min="0" max="24" step="0.5" required>
 
+            <label for="mood">Mood:</label>
+            <select name="mood">
+                <option value="1">1 Sad</option>
+                <option value="2">2</option>
+                <option value="3">3 Neutral</option>
+                <option value="4">4</option>
+                <option value="5">5 Happy</option>
+            </select>
+
+            <label for="screen_time">Screen Time (Hours):</label>
+            <input type="number" name="screen_time" min="0" required>
+
+            <label for="water">Water Intake (Liters):</label>
+            <input type="number" name="water" min="0" step="0.1" required>
+
+            <label for="steps">Daily Steps:</label>
+            <input type="number" name="steps" min="0" required>
+
+            <label for="work">Hours of Meaningful Work:</label>
+            <input type="number" name="work" min="0" required>
+
+            <button type="submit">Submit Data</button>
+        </form>
+    </div>
 </body>
 </html>
