@@ -54,26 +54,30 @@ def home() -> Flask.route:
 
 @app.route('/login', methods=["GET", "POST"])
 def login() -> Flask.route:
-    global user, user_data
-    if request.method == 'POST':
-        email = request.form.get("email")
-        password = request.form.get("password")
-        if Login(email, password):
-            user = User()
-            user.set_dbquery(email, password)
-            return redirect(url_for('dashboard'))
-    return render_template("auth/login.html")
+    if not CheckAuth:
+        global user, user_data
+        if request.method == 'POST':
+            email = request.form.get("email")
+            password = request.form.get("password")
+            if Login(email, password):
+                user = User()
+                user.set_dbquery(email, password)
+                return redirect(url_for('dashboard'))
+        return render_template("auth/login.html")
+    return redirect(url_for('dashboard'))
 
 @app.route('/register', methods = ["GET", "POST"])
 def signup() -> Flask.route:
-    if request.method == 'POST':
-        password = request.form.get("password")
-        confirm_pword = request.form.get("confirm_password")
-        email = request.form.get("email")
-        #Previous logic statement allows a user to signup where conf_pswrd != pswrd. Also supabase requires len(pswrd) > 6. 
-        if (password == confirm_pword and len(password) > 6) and SignUp(password, email):
-            return redirect(url_for('login'))
-    return render_template('auth/register.html')
+    if not CheckAuth:
+        if request.method == 'POST':
+            password = request.form.get("password")
+            confirm_pword = request.form.get("confirm_password")
+            email = request.form.get("email")
+            #Previous logic statement allows a user to signup where conf_pswrd != pswrd. Also supabase requires len(pswrd) > 6. 
+            if (password == confirm_pword and len(password) > 6) and SignUp(password, email):
+                return redirect(url_for('login'))
+        return render_template('auth/register.html')
+    return redirect(url_for('dashboard'))
 
 @app.route('/dashboard')
 def dashboard() -> Flask.route:
