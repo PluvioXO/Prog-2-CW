@@ -5,7 +5,7 @@ from Classes.User import User
 url: str = "https://xyoqfdhomalgeerfutzf.supabase.co"
 key: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh5b3FmZGhvbWFsZ2VlcmZ1dHpmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI5Mzk3OTAsImV4cCI6MjA1ODUxNTc5MH0.7jpSwPkLXXse1nc4Us9Kv6wf9qixMntB6i21Jxo9f_Q"
 supabase: Client = create_client(url, key)
-user = User()
+user: User = User()
 user_data = {}
 
 #CheckAuth is a simple helper function that just checks the users authentication session is valid. Used to reduce code redundancy && repitition.
@@ -18,32 +18,31 @@ def Login(eml : str, pss : str) -> bool:
     try:
         response = supabase.auth.sign_in_with_password(
         {
-        "email": eml, 
-        "password": pss,
+            "email": eml, 
+            "password": pss,
         }
         )
         #Once logged in user session data obtainable by: supabase.auth.get_session()
         #supabase.auth.get_session() => [USER DATA || None], which allows for easy auth. 
         print("Login Successful")
         return True
-    except Exception as e:
-        print(e)
+    except Exception as ErrorLog:
+        print(ErrorLog)
     return False
 
 def SignUp(pss : str, eml: str) -> bool:
     # Supabase handles all password hashing serverside. 
     try:
-        response = supabase.auth.sign_up(
+        supabase.auth.sign_up(
         {
-        "email": eml, 
-        "password": pss,
+            "email": eml, 
+            "password": pss,
         }
         )
-        # print(response)
         print("Signup Successful")
         return True 
-    except Exception as e:
-        print(e)
+    except Exception as ErrorLog:
+        print(ErrorLog)
         return False
 
 app = Flask(__name__)
@@ -54,30 +53,26 @@ def home() -> Flask.route:
 
 @app.route('/login', methods=["GET", "POST"])
 def login() -> Flask.route:
-    if not CheckAuth:
-        global user, user_data
-        if request.method == 'POST':
-            email = request.form.get("email")
-            password = request.form.get("password")
-            if Login(email, password):
-                user = User()
-                user.set_dbquery(email, password)
-                return redirect(url_for('dashboard'))
-        return render_template("auth/login.html")
-    return redirect(url_for('dashboard'))
+    global user, user_data
+    if request.method == 'POST':
+        email = request.form.get("email")
+        password = request.form.get("password")
+        if Login(email, password):
+            user = User()
+            user.set_dbquery(email, password)
+            return redirect(url_for('dashboard'))
+    return render_template("auth/login.html")
 
 @app.route('/register', methods = ["GET", "POST"])
 def signup() -> Flask.route:
-    if not CheckAuth:
-        if request.method == 'POST':
-            password = request.form.get("password")
-            confirm_pword = request.form.get("confirm_password")
-            email = request.form.get("email")
-            #Previous logic statement allows a user to signup where conf_pswrd != pswrd. Also supabase requires len(pswrd) > 6. 
-            if (password == confirm_pword and len(password) > 6) and SignUp(password, email):
-                return redirect(url_for('login'))
-        return render_template('auth/register.html')
-    return redirect(url_for('dashboard'))
+    if request.method == 'POST':
+        password = request.form.get("password")
+        confirm_pword = request.form.get("confirm_password")
+        email = request.form.get("email")
+        #Previous logic statement allows a user to signup where conf_pswrd != pswrd. Also supabase requires len(pswrd) > 6. 
+        if (password == confirm_pword and len(password) > 6) and SignUp(password, email):
+            return redirect(url_for('login'))
+    return render_template('auth/register.html')
 
 @app.route('/dashboard')
 def dashboard() -> Flask.route:
@@ -130,7 +125,6 @@ def logout() -> Flask.route:
     if CheckAuth():
         return redirect(url_for('profile')) #Case is Supabase API fails for some reason
     return redirect(url_for('home'))
-
 
 if __name__ == '__main__':
     app.run(debug=True)
