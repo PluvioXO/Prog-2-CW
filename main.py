@@ -10,7 +10,7 @@ user_data = {}
 
 #CheckAuth is a simple helper function that just checks the users authentication session is valid. Used to reduce code redundancy && repitition.
 def CheckAuth() -> bool:
-    if supabase.auth.get_session() != None: 
+    if supabase.auth.get_session() != None:
         return True
     return False
 
@@ -48,7 +48,7 @@ def SignUp(pss : str, eml: str) -> bool:
 
 app = Flask(__name__)
 
-@app.route('/', methods = ["GET"])
+@app.route('/')
 def home() -> Flask.route:
     return render_template('landing.html')
 
@@ -72,33 +72,32 @@ def signup() -> Flask.route:
         email = request.form.get("email")
         #Previous logic statement allows a user to signup where conf_pswrd != pswrd. Also supabase requires len(pswrd) > 6. 
         if (password == confirm_pword and len(password) > 6) and SignUp(password, email):
-            return redirect(url_for('/login'))
+            return redirect(url_for('login'))
     return render_template('auth/register.html')
 
 @app.route('/dashboard')
 def dashboard() -> Flask.route:
     if CheckAuth():
         return render_template('components/dashboard.html')
-    else:
-        return home()
+    return redirect(url_for('home'))
 
 @app.route('/profile')
 def profile() -> Flask.route:
     if CheckAuth():
         return render_template('components/profile.html')
-    return home()
+    return redirect(url_for('home'))
 
 @app.route('/input')
 def input() -> Flask.route:
     if CheckAuth():
         return render_template('components/input.html')
-    return home()
+    return redirect(url_for('home'))
 
 @app.route('/goals')
 def goals() -> Flask.route:
     if CheckAuth():
         return render_template('components/goals.html')
-    return home()
+    return redirect(url_for('home'))
 
 @app.route('/submit_data', methods=['POST'])
 def submit_data() -> Flask.route:
@@ -114,7 +113,7 @@ def submit_data() -> Flask.route:
         }
         print(user_data)
         return redirect(url_for('dashboard'))
-    return home()
+    return redirect(url_for('home'))
 
 #CheckAuth is not needed for this method by default. 
 @app.route('/logout', methods=['GET', 'POST'])
@@ -122,9 +121,11 @@ def logout() -> Flask.route:
     try:
         supabase.auth.sign_out() #Signs user out of their account and removes session
         print("Logout Successful")
-        return home() #Sends back to landing page 
     except:
-        return redirect(url_for('profile'))
+        print("Error during logout")
+    if CheckAuth():
+        return redirect(url_for('profile')) #Case is Supabase API fails for some reason
+    return redirect(url_for('home'))
 
 
 if __name__ == '__main__':

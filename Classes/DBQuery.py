@@ -1,4 +1,5 @@
 class DBQuery:
+    #All queries can be done simply from the given auth session of the user. 
     def __init__(self, pss, eml):
         self.pss = pss
         self.eml = eml
