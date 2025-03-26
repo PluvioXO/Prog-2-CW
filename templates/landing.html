@@ -18,7 +18,7 @@
             <div class="form-container">
                 <div class="form-box" id="login-box">
                     <h2>Login</h2>
-                    <form action="{{ url_for('login') }}" method="POST">
+                    <form id="login-form">
                         <input type="email" name="email" placeholder="Email" required>
                         <input type="password" name="password" placeholder="Password" required>
                         <button type="submit">Login</button>
@@ -28,9 +28,9 @@
 
                 <div class="form-box hidden" id="signup-box">
                     <h2>Signup</h2>
-                    <form action="{{ url_for('signup') }}" method="POST">
+                    <form id="signup-form">
                         <input type="email" name="email" placeholder="Email" required>
-                        <p>len(pswrd) > 6, please style this info in</p>
+                        <p class="password-info">Password must be at least 7 characters long.</p>
                         <input type="password" name="password" placeholder="Password" required>
                         <input type="password" name="confirm_password" placeholder="Confirm Password" required>
                         <button type="submit">Signup</button>

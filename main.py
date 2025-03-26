@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from supabase import create_client, Client
 from Classes.User import User
 
@@ -10,16 +10,14 @@ user_data = {}
 
 #CheckAuth is a simple helper function that just checks the users authentication session is valid. Used to reduce code redundancy && repitition.
 def CheckAuth() -> bool:
-    if supabase.auth.get_session() != None:
-        return True
-    return False
+    return supabase.auth.get_session() is not None
 
 def Login(eml : str, pss : str) -> bool:
     try:
         response = supabase.auth.sign_in_with_password(
         {
-            "email": eml, 
-            "password": pss,
+        "email": eml, 
+        "password": pss,
         }
         )
         #Once logged in user session data obtainable by: supabase.auth.get_session()
@@ -33,12 +31,13 @@ def Login(eml : str, pss : str) -> bool:
 def SignUp(pss : str, eml: str) -> bool:
     # Supabase handles all password hashing serverside. 
     try:
-        supabase.auth.sign_up(
+        response = supabase.auth.sign_up(
         {
-            "email": eml, 
-            "password": pss,
+        "email": eml, 
+        "password": pss,
         }
         )
+        # print(response)
         print("Signup Successful")
         return True 
     except Exception as ErrorLog:
@@ -51,7 +50,7 @@ app = Flask(__name__)
 def home() -> Flask.route:
     return render_template('landing.html')
 
-@app.route('/login', methods=["GET", "POST"])
+@app.route('/login', methods=["POST"])
 def login() -> Flask.route:
     global user, user_data
     if request.method == 'POST':
@@ -60,19 +59,30 @@ def login() -> Flask.route:
         if Login(email, password):
             user = User()
             user.set_dbquery(email, password)
-            return redirect(url_for('dashboard'))
-    return render_template("auth/login.html")
+            return jsonify({"success": True, "redirect": url_for('dashboard')})
+    return jsonify({"success": False, "error": "Invalid credentials"})
 
-@app.route('/register', methods = ["GET", "POST"])
+@app.route('/register', methods = ["POST"])
 def signup() -> Flask.route:
     if request.method == 'POST':
         password = request.form.get("password")
         confirm_pword = request.form.get("confirm_password")
         email = request.form.get("email")
-        #Previous logic statement allows a user to signup where conf_pswrd != pswrd. Also supabase requires len(pswrd) > 6. 
-        if (password == confirm_pword and len(password) > 6) and SignUp(password, email):
-            return redirect(url_for('login'))
-    return render_template('auth/register.html')
+        #Previous logic statement allows a user to signup where conf_pswrd != pswrd. Also supabase requires len(pswrd) > 6.
+        if not email or not password:
+            return jsonify({"success": False, "error": "Missing email or password"})
+
+        if password != confirm_pword:
+            return jsonify({"success": False, "error": "Passwords do not match"})
+
+        if len(password) < 7:
+            return jsonify({"success": False, "error": "Password must be at least 7 characters"})
+
+        if SignUp(password, email):
+            return jsonify({"success": True, "redirect": url_for('dashboard')})
+
+        return jsonify({"success": False, "error": "Signup failed"})
+    return jsonify({"success": False, "error": "Signup failed"})
 
 @app.route('/dashboard')
 def dashboard() -> Flask.route:
@@ -125,6 +135,7 @@ def logout() -> Flask.route:
     if CheckAuth():
         return redirect(url_for('profile')) #Case is Supabase API fails for some reason
     return redirect(url_for('home'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
