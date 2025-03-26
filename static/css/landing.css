@@ -1,10 +1,6 @@
 body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to right, #0099ff, #33ccff);
-    text-align: center;
-    color: white;
     margin: 0;
-    padding: 0;
+    font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,32 +8,99 @@ body {
 }
 
 .container {
-    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    width: 100%;
+    height: 100vh;
+}
+
+.left-side {
+    width: 40%;
+    background: linear-gradient(to right, #28a745, #48c774);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    text-align: center;
     padding: 20px;
+}
+
+.right-side {
+    width: 60%;
+    background: linear-gradient(to right, #0099ff, #33ccff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.form-container {
+    background: #D3D3D3;
+    padding: 40px;
     border-radius: 10px;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-    width: 90%;
-    max-width: 400px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 80%;
+    max-width: 350px;
 }
 
-.button-container {
-    margin-top: 20px;
+.hidden {
+    display: none;
 }
 
-.btn {
-    display: inline-block;
-    background: white;
-    color: #007acc;
-    padding: 12px 24px;
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
     border-radius: 5px;
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: bold;
-    transition: 0.3s;
-    margin: 10px;
+    font-size: 16px;
+    outline: none;
 }
 
-.btn:hover {
-    background: #005faa;
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    background: #007acc;
     color: white;
+}
+
+button:hover {
+    background: #005fa3;
+}
+
+p {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+a {
+    color: #007acc;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    .left-side, .right-side {
+        width: 100%;
+        height: 50%;
+        padding: 10px;
+    }
+    .form-container {
+        width: 90%;
+        max-width: 320px;
+    }
 }

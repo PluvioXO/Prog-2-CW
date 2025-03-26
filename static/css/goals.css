@@ -44,7 +44,7 @@ body {
     background: rgba(255, 255, 255, 0.3);
 }
 
-.active {
+.nav-link.active {
     background: rgba(255, 255, 255, 0.4);
 }
 
@@ -60,65 +60,36 @@ body {
     text-align: center;
     margin-left: 250px;
     width: calc(100% - 250px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
-.input-heading {
+.goal {
+    flex: 1 1 calc(50% - 20px);
+    min-width: 300px;
+    background: linear-gradient(to right, #28a745, #48c774);
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+}
+
+.goals-heading {
     font-size: 32px;
     font-weight: bold;
     margin-bottom: 20px;
-}
-
-.form-container {
-    width: 90%;
-    max-width: 600px;
-    background: linear-gradient(to right, #28a745, #48c774);
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-}
-
-label {
-    font-size: 18px;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-input, select {
-    padding: 10px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    margin-bottom: 15px;
+    margin-top: 20px;
+    text-align: center;
     width: 100%;
 }
 
-button {
-    background: #ffcc00;
-    color: #333;
-    font-size: 18px;
-    font-weight: bold;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-button:hover {
-    background: #ffdb4d;
+.goals-container {
+    width: 80%;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin-left: calc(((100% - 250px)/20) + 50px);
+    margin-right: calc((100% - 250px)/20);
 }
 
 @media (max-width: 1024px) {
@@ -127,6 +98,9 @@ button:hover {
         margin-left: 200px;
     }
 
+    .goal {
+        flex: 1 1 100%;
+    }
 }
 
 @media (max-width: 768px) {
@@ -134,22 +108,23 @@ button:hover {
         width: 200px;
     }
 
-    .main-container {
+    .main-content {
         margin-left: 200px;
         width: calc(100% - 200px);
     }
 
-    .form-container {
-        max-width: 500px;
+    .goal {
+        flex: 1 1 100%;
     }
 }
+
 
 @media (max-width: 600px) {
     .sidebar {
         width: 100px;
     }
 
-    .main-container {
+    .main-content {
         margin-left: 100px;
         width: calc(100% - 100px);
     }
@@ -159,7 +134,9 @@ button:hover {
         padding: 10px;
     }
 
-    .form-container {
-        max-width: 300px;
+    .goal {
+        flex: 1 1 100%;
     }
 }
+
+
