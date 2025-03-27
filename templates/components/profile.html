@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile & Settings</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+    <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
 </head>
 <body>
     <div class="sidebar">
@@ -22,17 +23,23 @@
             <h2>Account Information</h2>
             <div class="field">
                 <label>Email:</label>
-                <p class="info-text">user@example.com</p>
+                <p class="eml-text">{{ eml }}</p>
             </div>
 
             <div class="field">
-                <label>Username:</label>
-                <input type="text" id="username" value="User123">
+                <label for="new-password">Change Password:</label>
+                <div class="input-group">
+                    <input type="password" id="new-password" placeholder="New Password">
+                    <button class="show-hide-password" type="button" onclick="toggler1(this)">Show</button>
+                </div>
             </div>
 
             <div class="field">
-                <label>Change Password:</label>
-                <input type="password" id="password" placeholder="New Password">
+                <label for="new-cfm-password">Confirm Change Password:</label>
+                <div class="input-group">
+                    <input type="password" id="new-cfm-password" placeholder="New Password">
+                    <button class="show-hide-password" type="button" onclick="toggler_2(this)">Show</button>
+                </div>
             </div>
 
             <div class="theme-switch">
@@ -40,8 +47,10 @@
                 <input type="checkbox" id="darkModeToggle">
             </div>
 
-            <a class='save-btn' href="{{ url_for('dashboard') }}">Save Changes</a>
-            <a class='logout-btn' href="{{ url_for('logout') }}">Logout</a>
+            <div class="profile-buttons">
+                <a class='save-btn' href="{{ url_for('save_changes') }}">Save Changes</a>
+                <a class='logout-btn' href="{{ url_for('logout') }}">Logout</a>
+            </div>
         </div>
     </div>
 </body>
