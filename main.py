@@ -43,6 +43,18 @@ def SignUp(pss : str, eml: str) -> bool:
     except Exception as ErrorLog:
         print(ErrorLog)
         return False
+    
+
+def ChangePassword(pss : str) -> bool:
+    try:
+        response = supabase.auth.update_user(
+            {"password": pss}
+        )
+        print("Password Changed successfully")
+        return True
+    except Exception as ErrorLog:
+        print(ErrorLog)
+        return False
 
 app = Flask(__name__)
 
@@ -140,16 +152,24 @@ def logout() -> Flask.route:
 @app.route('/save-changes', methods=['GET', 'POST'])
 def save_changes() -> Flask.route:
     try:
+        data = request.json
+        password = data.get('new_password')
+        cfm_password = data.get('new_cfm_password')
+
         global user
-        password = request.form.get("password")
-        cfm_password = request.form.get("cfm-password")
+
         if password == cfm_password:
-            pass
+            
             # change password on supabase
+            if CheckAuth():
+                ChangePassword(cfm_password)
+        else:
+            pass
+
         return redirect(url_for('dashboard'))
     except Exception as ErrorLog:
         print(ErrorLog)
-
+        return redirect(url_for('profile'))
 
 if __name__ == '__main__':
     app.run(debug=True)
