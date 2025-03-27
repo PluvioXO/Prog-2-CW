@@ -93,7 +93,8 @@ def dashboard() -> Flask.route:
 @app.route('/profile')
 def profile() -> Flask.route:
     if CheckAuth():
-        return render_template('components/profile.html')
+        # eml field should have supabase users eml parsed in
+        return render_template('components/profile.html', eml="example")
     return redirect(url_for('home'))
 
 @app.route('/input')
@@ -135,6 +136,19 @@ def logout() -> Flask.route:
     if CheckAuth():
         return redirect(url_for('profile')) #Case is Supabase API fails for some reason
     return redirect(url_for('home'))
+
+@app.route('/save-changes', methods=['GET', 'POST'])
+def save_changes() -> Flask.route:
+    try:
+        global user
+        password = request.form.get("password")
+        cfm_password = request.form.get("cfm-password")
+        if password == cfm_password:
+            pass
+            # change password on supabase
+        return redirect(url_for('dashboard'))
+    except Exception as ErrorLog:
+        print(ErrorLog)
 
 
 if __name__ == '__main__':
