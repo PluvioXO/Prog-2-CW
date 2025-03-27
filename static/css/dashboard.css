@@ -78,7 +78,7 @@ body {
 }
 
 .metric-card {
-    background: rgba(255, 255, 255, 0.15);
+    background: linear-gradient(to right, #28a745, #48c774);
     padding: 40px;
     border-radius: 10px;
     text-align: center;
