@@ -70,29 +70,61 @@ body {
 
 .metrics-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(300px, 1fr));
-    gap: 30px;
-    max-width: 1200px;
-    margin: 20px auto;
+    grid-template-columns: repeat(2, minmax(250px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
     justify-content: center;
+}
+
+.big-card-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.big-card {
+    width: 100%; /* ✅ Adjust width */
+    max-width: 1000px; /* ✅ Prevents it from getting too wide */
+    min-height: 350px;
+    background: linear-gradient(to right, #ffcc00, #ffa500);
+    color: white;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 24px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    flex-direction: column;
 }
 
 .metric-card {
     background: linear-gradient(to right, #28a745, #48c774);
-    padding: 40px;
+    padding: 30px;
     border-radius: 10px;
     text-align: center;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-    max-width: 500px;
-    width: 90%;
-    min-height: 300px;
+    max-width: 400px;
+    width: 100%;
+    min-height: 250px;
 }
 
 @media (max-width: 1024px) {
     .metrics-grid {
         grid-template-columns: 1fr;
-        gap: 40px;
         max-width: 80%;
+    }
+
+    .metric-card {
+        max-width: 80%;
+    }
+
+    .big-card {
+        width: 80%;
     }
 }
 
@@ -125,7 +157,16 @@ body {
 
     .metrics-grid {
         grid-template-columns: 1fr;
-        gap: 50px;
         max-width: 85%;
+    }
+
+    .big-card {
+        min-height: 300px;
+        width: 90%;
+    }
+
+    .metric-card {
+        max-width: 100%;
+        min-height: 220px;
     }
 }
