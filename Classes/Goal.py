@@ -1,3 +1,4 @@
+#Goal class retrieves its information from the DB class. Before carrying out some parse operations on it.
 class Goal:
     def __init__(self):
         self.name = ''
