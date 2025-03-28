@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/goals.css') }}">
+    <script src="{{ url_for('static', filename='js/goals.js') }}"></script>
     <title>Goals</title>
 </head>
-<body>
+<body onload="startUp()">
     <div class="sidebar">
         <h2 class="sidebar-title">Menu</h2>
         <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
@@ -22,44 +23,44 @@
             <div class="goal">Sleep 
                 <div class="progress-bar" id="PBar1">
                     <div class="progress" id="P1"></div>
-                </div> 
+                </div><p id="sleepText">Current goal: 50   Current progress: 30</p>
                 <input type="text" class="goal-input" placeholder="Change goal:" id="goalChangeInput1"/>
-                <button class="goal-button" id="goalChange1">Submit</button>
+                <button class="goal-button" id="goalChange1" onclick="changeGoal(1)">Submit</button>
             </div>
             <div class="goal">Mood
                 <div class="progress-bar" id="PBar2">
                     <div class="progress" id="P2"></div> 
-                </div> 
+                </div><p id="moodText">Current goal: 25    Current progress: 15</p> 
                 <input type="text" class="goal-input" placeholder="Change goal:" id="goalChangeInput2"/>
-                <button class="goal-button" id="goalChange2">Submit</button>
+                <button class="goal-button" id="goalChange2" onclick="changeGoal(2)">Submit</button>
             </div>
             <div class="goal">Screen Time
                 <div class="progress-bar" id="PBar3">
                     <div class="progress" id="P3"></div> 
-                </div> 
+                </div><p id="screenText">Current goal: 25    Current progress: 15</p> 
                 <input type="text" class="goal-input" placeholder="Change goal:" id="goalChangeInput3"/>
-                <button class="goal-button" id="goalChange3">Submit</button>
+                <button class="goal-button" id="goalChange3" onclick="changeGoal(3)">Submit</button>
             </div>
             <div class="goal">Water
                 <div class="progress-bar" id="PBar4">
                     <div class="progress" id="P4"></div> 
-                </div> 
+                </div><p id="waterText">Current goal: 15    Current progress: 0</p>
                 <input type="text" class="goal-input" placeholder="Change goal:" id="goalChangeInput4"/>
-                <button class="goal-button" id="goalChange4">Submit</button>
+                <button class="goal-button" id="goalChange4" onclick="changeGoal(4)">Submit</button>
             </div>
             <div class="goal">Steps
                 <div class="progress-bar" id="PBar4">
                     <div class="progress" id="P5"></div> 
-                </div> 
+                </div><p id="stepText">Current goal: 50000    Current progress: 20000</p>
                 <input type="text" class="goal-input" placeholder="Change goal:" id="goalChangeInput5"/>
-                <button class="goal-button" id="goalChange5">Submit</button>
+                <button class="goal-button" id="goalChange5" onclick="changeGoal(5)">Submit</button>
             </div>
             <div class="goal">Hours of Work
                 <div class="progress-bar" id="PBar4">
                     <div class="progress" id="P6"></div> 
-                </div> 
+                </div><p id="workText">Current goal: 20    Current progress: 10</p>
                 <input type="text" class="goal-input" placeholder="Change goal:" id="goalChangeInput6"/>
-                <button class="goal-button" id="goalChange6">Submit</button>
+                <button class="goal-button" id="goalChange6" onclick="changeGoal(6)">Submit</button>
             </div>
         </div>
     </div>
