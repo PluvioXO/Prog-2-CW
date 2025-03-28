@@ -7,8 +7,8 @@ class DB():
     #UTIL METHODS
     def getUUID(self):
         user = self.supabase.auth.get_user()
-        if user and user.get("id"):
-            return user["id"]
+        if user:
+            return user.user.id
         else:
             return None
 
@@ -42,6 +42,26 @@ class DB():
     def isLoggedIn(self) -> bool:
         return self.supabase.auth.get_session() is not None
     
+
+    def changePassword(self, newPassword) -> bool:
+
+        if self.isLoggedIn():
+            response = self.supabase.auth.update_user(
+                    {"password": newPassword}
+                    )   
+            return True
+        else:
+            return False
+        
+    def getUserID(self) -> bool:
+        try:
+            user = self.supabase.auth.get_user()
+            user_id = user.user.id
+
+            return user_id
+        except: 
+            return None 
+        
     #QUERY METHODS [All are obtained from the given uuid from auth table. No need for the email or password to be parsed to any method]
     def set_water(self, cups : int) -> bool:
         try:
@@ -76,7 +96,14 @@ class DB():
     #ALL GET METHODS WILL RETURN 0 IF NO RECORD EXISTS. 
     def get_water(self) -> int:
         try:
-            response = self.supabase.from_("userData").select("water").eq("uuid", self.getUUID()).execute()
+            #response = self.supabase.from_("userData").select("water").eq("uuid", self.getUUID()).execute()
+            
+            response = (
+                self.supabase.table("entry")
+                .select("water")
+                .execute()
+            )
+
             return response.data
         except:
             return 0
@@ -108,3 +135,28 @@ class DB():
             return response.data
         except:
             return 0
+        
+
+    def addEntry(self, entryDict) -> float:
+        try:
+            response = (
+                self.supabase.table("entry").insert([entryDict,]).execute()
+            )
+            print(response)
+            return True
+        except:
+            return False
+    
+    def getAllData(self) -> dict:
+        try:
+            response = (
+                    self.supabase.table("entry")
+                    .select("*")
+                    .eq("userID", self.getUserID())
+                    .execute()
+                )
+            print(response)
+            return response.data
+        except:
+            return False
+        

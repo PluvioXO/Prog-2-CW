@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from Classes.DB import DB
+import datetime
 
 class App():
     user_data = {}
@@ -74,16 +75,23 @@ class App():
         @self.app.route('/submit_data', methods=['POST'])
         def submit_data() -> Flask.route:
             if self.supabase.isLoggedIn():
+
                 global user_data
                 user_data = {
-                    "sleep": request.form.get("sleep"),
-                    "mood": request.form.get("mood"),
-                    "screen_time": request.form.get("screen_time"),
-                    "water": request.form.get("water"),
-                    "steps": request.form.get("steps"),
-                    "work": request.form.get("work"),
+                    "userID": self.supabase.getUserID(),
+                    "sleep": float(request.form.get("sleep")),
+                    "mood": int(request.form.get("mood")),
+                    "screenTime": float(request.form.get("screen_time")),
+                    "water": float(request.form.get("water")),
+                    "steps": int(request.form.get("steps")),
+                    "work": float(request.form.get("work")),
                 }
                 print(user_data)
+
+
+                self.supabase.addEntry(user_data)
+                print("Added to entry table")
+
                 return redirect(url_for('dashboard'))
             return redirect(url_for('home'))
 
@@ -93,6 +101,33 @@ class App():
             if self.supabase.signout():
                 return redirect(url_for('home'))
             return redirect(url_for('profile')) #Case is Supabase API fails for some reason
+        
+
+        @self.app.route('/save-changes', methods=['GET', 'POST'])
+        def save_changes() -> Flask.route:
+            try:
+                data = request.json
+                password = data.get('new_password')
+                cfm_password = data.get('new_cfm_password')
+        
+                if password == cfm_password:
+                    
+                    # change password on supabase
+                    self.supabase.changePassword(cfm_password)
+                    print("Password Changed successfully")
+                    return redirect(url_for('home'))
+                else:
+                    return redirect(url_for('profile'))
+                        
+            except Exception as ErrorLog:
+                print(ErrorLog)
+                return redirect(url_for('profile'))
+
+
+        @self.app.route('/get-data', methods=['GET'])
+        def getData() -> dict:
+            return self.supabase.getAllData()
+    
     
     def run(self, debug=True):
         self.app.run(debug=debug)
