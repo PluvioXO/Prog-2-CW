@@ -19,7 +19,7 @@
         <div class="form-container">
             <form action="{{ url_for('submit_data') }}" method="POST">
                 <label for="sleep">Sleep (Hours):</label>
-                <input type="number" name="sleep" min="0" max="24" step="0.5" required>
+                <input type="number" name="sleep" min="0" max="24" step="0.1" required>
 
                 <label for="mood">Mood:</label>
                 <select name="mood">
@@ -31,16 +31,16 @@
                 </select>
 
                 <label for="screen_time">Screen Time (Hours):</label>
-                <input type="number" name="screen_time" min="0" required>
+                <input type="number" name="screen_time" min="0" max="24" step="0.1" required>
 
                 <label for="water">Water Intake (Liters):</label>
-                <input type="number" name="water" min="0" step="0.1" required>
+                <input type="number" name="water" min="0" max="20" step="0.1" required>
 
                 <label for="steps">Daily Steps:</label>
-                <input type="number" name="steps" min="0" required>
+                <input type="number" name="steps" min="0" max="300000" step="1" required>
 
                 <label for="work">Hours of Meaningful Work:</label>
-                <input type="number" name="work" min="0" required>
+                <input type="number" name="work" min="0" max="24" step="0.1" required>
 
                 <button type="submit">Submit Data</button>
             </form>
