@@ -72,29 +72,40 @@ body {
     text-align: left;
     width: 90%;
     max-width: 500px;
+    align-items: center;
 }
 
-.field {
-    margin: 15px 0;
-}
-
-label {
-    display: block;
-    font-size: 16px;
-}
-
-.info-text {
+.eml-text {
     font-size: 16px;
     font-weight: bold;
 }
 
-input {
+.field {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 5px;
+}
+
+.field label {
+    width: 150px;
+    font-weight: bold;
+}
+
+.input-group {
+    display: flex;
     width: 100%;
+    align-items: center;
+}
+
+input {
+    flex: 1;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
     outline: none;
+    width: calc(100% - 50px);
 }
 
 a {
@@ -109,20 +120,59 @@ a {
     text-decoration: none;
 }
 
+.show-hide-password {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-left: none;
+    background-color: #f1f1f1;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background 0.3s;
+    margin-left: 5px;
+    min-width: 60px;
+    text-align: center;
+}
+
+.show-hide-password:hover {
+    background-color: #ddd;
+}
+
+.profile-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: auto;
+}
+
+.save-btn, .logout-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+    text-decoration: none;
+    text-align: center;
+    min-width: 120px;
+}
+
 .save-btn {
-    font-weight: bold;
-    background: #28a745;
+    background-color: #28a745;
     color: white;
 }
 
 .save-btn:hover {
-    background: #1e7e34;
+    background-color: #218838;
 }
 
 .logout-btn {
-    font-weight: bold;
-    background: #dc3545;
+    background-color: #dc3545;
     color: white;
+}
+
+.logout-btn:hover {
+    background-color: #c82333;
 }
 
 .logout-btn:hover {
