@@ -42,6 +42,17 @@ class DB():
     def isLoggedIn(self) -> bool:
         return self.supabase.auth.get_session() is not None
     
+
+    def changePassword(self, newPassword) -> bool:
+
+        if self.isLoggedIn():
+            response = self.supabase.auth.update_user(
+                    {"password": newPassword}
+                    )   
+            return True
+        else:
+            return False
+    
     #QUERY METHODS [All are obtained from the given uuid from auth table. No need for the email or password to be parsed to any method]
     def set_water(self, cups : int) -> bool:
         try:
