@@ -121,7 +121,12 @@ class App():
                         
             except Exception as ErrorLog:
                 print(ErrorLog)
-                return redirect(url_for('profile'))    
+                return redirect(url_for('profile'))
+
+
+        @self.app.route('/get-data', methods=['GET'])
+        def getData() -> dict:
+            return self.supabase.getAllData()
     
     
     def run(self, debug=True):

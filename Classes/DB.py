@@ -96,7 +96,14 @@ class DB():
     #ALL GET METHODS WILL RETURN 0 IF NO RECORD EXISTS. 
     def get_water(self) -> int:
         try:
-            response = self.supabase.from_("userData").select("water").eq("uuid", self.getUUID()).execute()
+            #response = self.supabase.from_("userData").select("water").eq("uuid", self.getUUID()).execute()
+            
+            response = (
+                self.supabase.table("entry")
+                .select("water")
+                .execute()
+            )
+
             return response.data
         except:
             return 0
@@ -139,3 +146,17 @@ class DB():
             return True
         except:
             return False
+    
+    def getAllData(self) -> dict:
+        try:
+            response = (
+                    self.supabase.table("entry")
+                    .select("*")
+                    .eq("userID", self.getUserID())
+                    .execute()
+                )
+            print(response)
+            return response.data
+        except:
+            return False
+        
