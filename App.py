@@ -85,6 +85,7 @@ class App():
                 global user_data
                 user_data = {
                     "userID": self.supabase.getUserID(),
+                    "timestamp": datetime.datetime.now(tz=datetime.timezone.utc).isoformat(),
                     "sleep": float(request.form.get("sleep")),
                     "mood": int(request.form.get("mood")),
                     "screenTime": float(request.form.get("screen_time")),
