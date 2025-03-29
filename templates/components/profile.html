@@ -22,8 +22,21 @@
         <div class="profile-card">
             <h2>Account Information</h2>
             <div class="field">
+                <label>Name:</label>
+                <p class="profile-text">{{ name }}</p>
+            </div>
+
+            <div class="field">
+                <label>DOB:</label>
+                <p class="profile-text">{{ dob }}</p>
+            </div>
+
+            <div class="field">
                 <label>Email:</label>
-                <p class="eml-text">{{ eml }}</p>
+                <div class="email-container">
+                    <p class="profile-text" id="masked-email">{{ eml }}</p>
+                    <button class="toggle-email-button" id="show-eml-button" onclick="toggleEmail()">Show</button>
+                </div>
             </div>
 
             <div class="field">
@@ -50,7 +63,9 @@
             <div class="profile-buttons">
                 <a class='save-btn' id="save-btn" href="{{ url_for('save_changes') }}">Save Changes</a>
                 <a class='logout-btn' href="{{ url_for('logout') }}">Logout</a>
+                <a class="delete-profile-btn" id="delete-profile-btn" href="{{ url_for('delete_profile') }}">Delete Profile</a>
             </div>
+
         </div>
     </div>
 </body>

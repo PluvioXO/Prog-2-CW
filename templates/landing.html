@@ -29,10 +29,12 @@
                 <div class="form-box hidden" id="signup-box">
                     <h2>Signup</h2>
                     <form id="signup-form">
+                        <input type="text" name="full_name" placeholder="Full Name" required>
+                        <input type="date" name="date_of_birth" placeholder="Date of Birth" required>
                         <input type="email" name="email" placeholder="Email" required>
-                        <p class="password-info">Password must be at least 7 characters long.</p>
                         <input type="password" name="password" placeholder="Password" required>
                         <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+                        <p class="password-info">Password must be at least 7 characters long.</p>
                         <button type="submit">Signup</button>
                         <p>Already have an account? <a href="#" id="show-login">Login</a></p>
                     </form>

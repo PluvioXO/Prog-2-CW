@@ -29,11 +29,13 @@ class App():
         @self.app.route('/register', methods = ["POST"])
         def signup() -> Flask.route:
             if request.method == 'POST':
+                name = request.form.get("full_name")
+                dob = request.form.get("date_of_birth")
                 password = request.form.get("password")
                 confirm_pword = request.form.get("confirm_password")
                 email = request.form.get("email")
                 #Previous logic statement allows a user to signup where conf_pswrd != pswrd. Also supabase requires len(pswrd) > 6.
-                if not email or not password:
+                if not email or not password or not name or not dob:
                     return jsonify({"success": False, "error": "Missing email or password"})
 
                 if password != confirm_pword:
@@ -42,7 +44,7 @@ class App():
                 if len(password) < 7:
                     return jsonify({"success": False, "error": "Password must be at least 7 characters"})
 
-                if self.supabase.signup(email, password):
+                if self.supabase.signup(email, password): # needs name and dob added
                     return jsonify({"success": True, "redirect": url_for('dashboard')})
 
                 return jsonify({"success": False, "error": "Signup failed"})
@@ -54,10 +56,14 @@ class App():
                 return render_template('components/dashboard.html')
             return redirect(url_for('home'))
 
-        @self.app.route('/profile')
+        @self.app.route('/profile', methods=["GET", "POST"])
         def profile() -> Flask.route:
             if self.supabase.isLoggedIn():
-                return render_template('components/profile.html')
+                # Need to be fetched from db
+                email = "email@gmail.com"
+                name = "name"
+                dob = "dob" # will need formatting to a string to display
+                return render_template('components/profile.html', eml=email, name=name, dob=dob)
             return redirect(url_for('home'))
 
         @self.app.route('/input')
@@ -119,6 +125,15 @@ class App():
                 else:
                     return redirect(url_for('profile'))
                         
+            except Exception as ErrorLog:
+                print(ErrorLog)
+                return redirect(url_for('profile'))
+
+        @self.app.route('/delete-profile', methods=['GET', 'POST'])
+        def delete_profile() -> Flask.route:
+            try:
+                pass
+                # supabase delete profile
             except Exception as ErrorLog:
                 print(ErrorLog)
                 return redirect(url_for('profile'))

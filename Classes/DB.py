@@ -22,7 +22,7 @@ class DB():
             print(error)
             return False
         
-    def signup(self, eml: str, pss: str) -> bool:
+    def signup(self, eml: str, pss: str) -> bool: # needs to take name and dob now asw
         try: 
             self.supabase.auth.sign_up({"email": eml, "password": pss})
             return True
@@ -87,7 +87,7 @@ class DB():
         except:
             return False
 
-    def set_meaningful_work_hours(self, meaningful_work_hours : float) -> bool:
+    def set_meaningful_work_hours(self, work : float) -> bool:
         try:
             return self.supabase.from_("userData").update({"work": work}).eq("uuid", self.getUUID).execute() is not None
         except:
