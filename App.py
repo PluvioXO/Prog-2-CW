@@ -43,6 +43,22 @@ class App():
 
                 if len(password) < 7:
                     return jsonify({"success": False, "error": "Password must be at least 7 characters"})
+                has_lower = False
+                has_upper = False
+                has_number = False
+                for char in password:
+                    if char.islower():
+                        has_lower = True
+                    elif char.isupper():
+                        has_upper = True
+                    elif char.isdigit():
+                        has_number = True
+                if not has_lower:
+                    return jsonify({"success": False, "error": "Password must contain at least one lower case letter"})
+                if not has_upper:
+                    return jsonify({"success": False, "error": "Password must contain at least one upper case letter"})
+                if not has_number:
+                    return jsonify({"success": False, "error": "Password must contain at least one number"})
 
                 #this block of code calculates the age based on inputted date of birth, stored in calculated_age, and determines whether it's in the permitted range
                 min_age = 10
