@@ -44,7 +44,7 @@ class App():
                 if len(password) < 7:
                     return jsonify({"success": False, "error": "Password must be at least 7 characters"})
 
-                #this block of code calculates the age based on inputted date of birth, stored in calculated_age
+                #this block of code calculates the age based on inputted date of birth, stored in calculated_age, and determines whether it's in the permitted range
                 min_age = 10
                 max_age = 100
                 split_dob = dob.split("-")
@@ -55,9 +55,20 @@ class App():
                     calculated_age -= 1
                 elif current_date.month == formatted_dob.month and current_date.day < formatted_dob.day:
                     calculated_age -= 1
-
                 if calculated_age < min_age or calculated_age > max_age:
                     return jsonify({"success": False, "error": "Not within permitted age range"})
+
+                #this block of code determines if the name entered is valid
+                formatted_name = name.replace('-',' ') #allows use of hyphens in name, replaced with a space to pass the validation
+                split_name = formatted_name.split()
+                valid_name = True
+                if len(split_name) == 0:
+                    return jsonify({"success": False, "error": "Enter a valid name"})
+                for word in split_name:
+                    if not word.isalpha():
+                        valid_name = False
+                if not valid_name:
+                    return jsonify({"success": False, "error": "Enter a valid name"})
 
                 if self.supabase.signup(email, password): # needs name and dob added
                     return jsonify({"success": True, "redirect": url_for('dashboard')})
