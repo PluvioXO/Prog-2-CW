@@ -181,9 +181,23 @@ class App():
                 }
                 print(user_data)
 
+                #verification of whether the user has already inputted data for today
+                current_date = datetime.datetime.now(tz=datetime.timezone.utc)
+                inputted_today = False
+                all_data = self.supabase.getAllData() #can probably be improved
+                for entry in all_data:
+                    creation_date = entry["created_at"][:10].split("-")
+                    if int(creation_date[0]) == current_date.year and int(creation_date[1]) == current_date.month and int(creation_date[2]) == current_date.day:
+                        inputted_today = True
+                        break
 
-                self.supabase.addEntry(user_data)
-                print("Added to entry table")
+                if not inputted_today:
+                    self.supabase.addEntry(user_data)
+                    print("Added to entry table")
+                else:
+                    #insert visual cue to user that data entry was unsuccessful
+                    print("User has already inputted today")
+                    return redirect(url_for('previous_inputs'))
 
                 return redirect(url_for('dashboard'))
             return redirect(url_for('home'))
