@@ -138,10 +138,10 @@ class App():
         @self.app.route('/profile', methods=["GET", "POST"])
         def profile() -> Flask.route:
             if self.supabase.isLoggedIn():
-                # Need to be fetched from db
+                #Need to be fetched from db
                 email = "email@gmail.com"
                 name = "name"
-                dob = "dob" # will need formatting to a string to display
+                dob = "dob" #will need formatting to a string to display
                 return render_template('components/profile.html', eml=email, name=name, dob=dob)
             return redirect(url_for('home'))
 
@@ -149,6 +149,12 @@ class App():
         def input() -> Flask.route:
             if self.supabase.isLoggedIn():
                 return render_template('components/input.html')
+            return redirect(url_for('home'))
+
+        @self.app.route('/previous_inputs', methods=["GET", "POST"])
+        def previous_inputs() -> Flask.route:
+            if self.supabase.isLoggedIn():
+                return render_template('components/previous_inputs.html')
             return redirect(url_for('home'))
 
         @self.app.route('/goals')
@@ -187,7 +193,6 @@ class App():
             if self.supabase.signout():
                 return redirect(url_for('home'))
             return redirect(url_for('profile')) #Case is Supabase API fails for some reason
-        
 
         @self.app.route('/save-changes', methods=['GET', 'POST'])
         def save_changes() -> Flask.route:
@@ -217,7 +222,6 @@ class App():
             except Exception as ErrorLog:
                 print(ErrorLog)
                 return redirect(url_for('profile'))
-
 
         @self.app.route('/get-data', methods=['GET'])
         def getData() -> dict:

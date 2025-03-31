@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/previous_inputs.css') }}">
+    <script src="{{ url_for('static', filename='js/previous_inputs.js') }}"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div class="sidebar">
+        <h2 class="sidebar-title">Menu</h2>
+        <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
+        <a href="{{ url_for('input') }}" class="nav-link">Input Data</a>
+        <a href="{{ url_for('previous_inputs') }}" class="nav-link active">Previous Submissions</a>
+        <a href="{{ url_for('goals') }}" class="nav-link">Goals</a>
+        <a href="{{ url_for('profile') }}" class="nav-link profile-link">Profile</a>
+    </div>
+
+    <div class="main-container">
+
+    </div>
+
+</body>
+</html>

@@ -67,7 +67,7 @@ body {
 }
 
 .profile-card {
-    background: rgba(255, 255, 255, 0.15);
+    background: linear-gradient(to right, rgba(40,167,69,0.7), rgba(72,199,116,0.7));
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
