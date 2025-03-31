@@ -2,6 +2,8 @@ from supabase import create_client, Client
 
 class DB():
     def __init__(self, url: str, key: str) -> Client:
+        self.url = url
+        self.key = key
         self.supabase = create_client(url,key)
     
     #UTIL METHODS
@@ -61,7 +63,27 @@ class DB():
             return user_id
         except: 
             return None 
-        
+    
+    def deleteUser(self) -> bool:
+        try:
+
+            userID = self.getUserID()
+
+            try:
+                
+                #Struggling here
+
+                admin_supabase = create_client(self.url, self.key)  #Switch to admin
+                response = admin_supabase.auth.admin.delete_user(userID)
+                print("Response:", response)  # Print response to check
+            except Exception as e:
+                print("Error:", e)
+                return False
+            return True
+        except: 
+            return False 
+    
+
     #QUERY METHODS [All are obtained from the given uuid from auth table. No need for the email or password to be parsed to any method]
     def set_water(self, cups : int) -> bool:
         try:

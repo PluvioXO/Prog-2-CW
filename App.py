@@ -217,8 +217,9 @@ class App():
         @self.app.route('/delete-profile', methods=['GET', 'POST'])
         def delete_profile() -> Flask.route:
             try:
-                pass
-                # supabase delete profile
+                self.supabase.deleteUser()
+                print("Deleted (maybe)")
+                return redirect(url_for('home'))
             except Exception as ErrorLog:
                 print(ErrorLog)
                 return redirect(url_for('profile'))
@@ -230,3 +231,5 @@ class App():
     
     def run(self, debug=True):
         self.app.run(debug=debug)
+
+
