@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/previous_inputs.css') }}">
     <script src="{{ url_for('static', filename='js/previous_inputs.js') }}"></script>
-    <title>Document</title>
+    <title>Previous Submissions</title>
 </head>
 <body>
     <div class="sidebar">
@@ -16,10 +16,67 @@
         <a href="{{ url_for('goals') }}" class="nav-link">Goals</a>
         <a href="{{ url_for('profile') }}" class="nav-link profile-link">Profile</a>
     </div>
-
     <div class="main-container">
+        <h1>Previous Submissions</h1>
+        <div class="entries-container">
+            {% for entry in submissions %}
+                {% set entry_date = entry['created_at'][:10] %}
+                {% set entry_time = entry['created_at'][11:16] %}
+                <div class="entry">
+                    <p><strong>Date:</strong> {{ entry_date }}</p>
+                    <p><strong>Time:</strong> {{ entry_time }}</p>
+                    <p><strong>Sleep:</strong> {{ entry['sleep'] }} hrs</p>
+                    <p><strong>Mood:</strong> {{ entry['mood'] }}/5</p>
+                    <p><strong>Screen Time:</strong> {{ entry['screenTime'] }} hrs</p>
+                    <p><strong>Water Intake:</strong> {{ entry['water'] }} L</p>
+                    <p><strong>Steps:</strong> {{ entry['steps'] }}</p>
+                    <p><strong>Work Hours:</strong> {{ entry['work'] }} hrs</p>
 
+                    <div class="buttons">
+                        {% if entry_date == today %}
+                            <button class="edit-btn" onclick="editEntry('{{ entry['created_at'] }}', '{{ entry['sleep'] }}', '{{ entry['mood'] }}', '{{ entry['screenTime'] }}', '{{ entry['water'] }}', '{{ entry['steps'] }}', '{{ entry['work'] }}')">Edit</button>
+                        {% endif %}
+                        <button class="delete-btn" onclick="confirmDelete({{ entry['entryID'] }})">Delete</button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 
+    <div id="edit-form-container" class="hidden">
+            <h2>Edit Entry</h2>
+            <form action="{{ url_for('submit_edited_entry') }}" method="POST" id="edit-form">
+                <input type="hidden" name="entryID" id="edit-entry-id">
+
+                <label for="edit-sleep">Sleep (Hours):</label>
+                <input type="number" id="edit-sleep" min="0" max="24" step="0.1" required>
+
+                <label for="edit-mood">Mood:</label>
+                <select id="edit-mood">
+                    <option value="1">1 Sad</option>
+                    <option value="2">2</option>
+                    <option value="3">3 Neutral</option>
+                    <option value="4">4</option>
+                    <option value="5">5 Happy</option>
+                </select>
+
+                <label for="edit-screen-time">Screen Time (Hours):</label>
+                <input type="number" id="edit-screen-time" min="0" max="24" step="0.1" required>
+
+                <label for="edit-water">Water Intake (Liters):</label>
+                <input type="number" id="edit-water" min="0" max="20" step="0.1" required>
+
+                <label for="edit-steps">Daily Steps:</label>
+                <input type="number" id="edit-steps" min="0" max="100000" step="1" required>
+
+                <label for="edit-work">Hours of Meaningful Work:</label>
+                <input type="number" id="edit-work" min="0" max="24" step="0.1" required>
+
+                <div class="form-buttons">
+                    <button type="button" onclick="cancelEdit()">Cancel</button>
+                    <button type="submit">Save Changes</button>
+                </div>
+            </form>
+        </div>
 </body>
 </html>
