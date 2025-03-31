@@ -40,6 +40,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
         });
     });
+
+
+    document.getElementById("delete-profile-btn").addEventListener("click", async function(event){
+        event.preventDefault();
+        fetch('/delete-profile', { method: 'GET' })  // Works too
+
+    });
 });
 
 function maskEmail(email) {
