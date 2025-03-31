@@ -41,6 +41,43 @@ class App():
                 if password != confirm_pword:
                     return jsonify({"success": False, "error": "Passwords do not match"})
 
+                #email verification:
+                special_chars = "!#$%&'*+-/=?^_`{|}~" #the special characters allowed in the prefix of an email address
+                split_email = email.split('@')
+                if len(split_email) != 2:
+                    return jsonify({"success": False, "error": "Email is invalid"})
+                prefix = split_email[0]
+                prefix_first = prefix[0]
+                prefix_last = prefix[len(prefix) - 1]
+                #prefix cannot start or end with a fullstop
+                if prefix_first == '.' or prefix_last == '.':
+                    return jsonify({"success": False, "error": "Email is invalid"})
+                split_prefix = prefix.split(".")
+                for word in split_prefix:
+                        if (not word.isalnum()):
+                            for char in word:
+                                if (not char.isalnum()) and (not (char in special_chars)):
+                                    return jsonify({"success": False, "error": "Email is invalid"})
+                domain = split_email[1]
+                domain_first = domain[0]
+                domain_last = domain[len(domain)-1]
+                #domain cannot start or end with a fullstop or hyphen
+                if domain_first == '-' or domain_first == '.' or domain_first == '-' or domain_first == '.':
+                    return jsonify({"success": False, "error": "Email is invalid"})
+                split_domain = domain.split('.') #this split is to check that there is at least one fullstop with characters before and after
+                if len(split_domain) < 2:
+                    return jsonify({"success": False, "error": "Email is invalid"})
+                split_domain = domain.replace('-','.').split('.')
+                all_numbers = True #all numeric domains are not allowed
+                for word in split_domain:
+                    if (not word.isalnum()):
+                        return jsonify({"success": False, "error": "Email is invalid"})
+                    elif (not word.isdigit()):
+                        all_numbers = False
+                if all_numbers:
+                    return jsonify({"success": False, "error": "Email is invalid"})
+
+
                 if len(password) < 7:
                     return jsonify({"success": False, "error": "Password must be at least 7 characters"})
                 has_lower = False
