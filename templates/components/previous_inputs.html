@@ -45,7 +45,7 @@
 
     <div id="edit-form-container" class="hidden">
             <h2>Edit Entry</h2>
-            <form action="{{ url_for('submit_edited_entry') }}" method="POST" id="edit-form">
+            <form method="POST" id="edit-form">
                 <input type="hidden" name="entryID" id="edit-entry-id">
 
                 <label for="edit-sleep">Sleep (Hours):</label>
@@ -74,7 +74,7 @@
 
                 <div class="form-buttons">
                     <button type="button" onclick="cancelEdit()">Cancel</button>
-                    <button type="submit" id="edit-entry-btn">Save Changes</button>
+                    <button type="submit" onclick="confirmEdit()" id="edit-entry-btn">Save Changes</button>
                 </div>
             </form>
         </div>

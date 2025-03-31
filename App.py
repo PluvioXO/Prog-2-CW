@@ -202,16 +202,6 @@ class App():
                 return redirect(url_for('dashboard'))
             return redirect(url_for('home'))
 
-        @self.app.route('/submit_edited_entry', methods=['POST'])
-        def submit_edited_entry() -> Flask.route:
-            if self.supabase.isLoggedIn():
-                global user_data
-                # update entry
-
-                return redirect(url_for('dashboard'))
-            return redirect(url_for('home'))
-
-
         #CheckAuth is not needed for this method by default. 
         @self.app.route('/logout', methods=['GET', 'POST'])
         def logout() -> Flask.route:

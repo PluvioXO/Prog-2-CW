@@ -72,6 +72,14 @@ function editEntry(entryID, sleep, mood, screenTime, water, steps, work) {
 
 }
 
+//close edit window
+function confirmEdit() {
+    document.getElementById("edit-form-container").classList.add("hidden");
+    document.querySelector(".entries-container").classList.remove("hidden");
+
+    window.location.reload();
+}
+
 // Cancel Edit
 function cancelEdit() {
     document.getElementById("edit-form-container").classList.add("hidden");
