@@ -82,6 +82,15 @@ function cancelEdit() {
 function confirmDelete(entryID) {
     if (confirm("Are you sure you want to delete this entry?")) {
         //delete the entry
+        const response = fetch('/delete-entry', {
+            method: 'POST', // Change to 'POST' if sending data
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({'entryID':entryID})
+        });
+
+
     }
 }
 

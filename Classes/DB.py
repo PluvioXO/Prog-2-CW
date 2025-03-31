@@ -191,5 +191,15 @@ class DB():
             print("Exception during upsert:", str(e))
             return False
 
-    def deleteEntry(self, entryID) -> bool:
-        return False
+    def deleteEntry(self, data) -> bool:
+        try:
+            response = (
+                self.supabase.table("entry")
+                .delete()
+                .eq("entryID", data.get('entryID'))
+                .execute()
+            )
+            print("entry deletes")
+            return True
+        except:
+            return False

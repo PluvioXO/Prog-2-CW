@@ -251,7 +251,19 @@ class App():
 
             except:
                 return redirect(url_for('home'))
-                 
+        
+        @self.app.route('/delete-entry', methods=['POST'])
+        def deleteEntry() -> Flask.route:
+            try:
+                data = request.json
+                print(data)
+                self.supabase.deleteEntry(data)
+                print()
+                return redirect(url_for('home'))
+
+            except:
+                return redirect(url_for('home'))
+
     def run(self, debug=True):
         self.app.run(debug=debug)
 
