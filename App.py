@@ -154,14 +154,8 @@ class App():
         @self.app.route('/previous-inputs')
         def previous_inputs() -> Flask.route:
             if self.supabase.isLoggedIn():
-                submissions = [ # array of dictionaries of previous submissions
-                    {"entryId": "1", "created_at": "2025-03-31T12:54:34.759132+00:00", "mood":3, "screenTime": 3,
-                     "sleep": 6.5, "steps": 12431, "userID": "", "water": 2.1, "work": 1.3},
-                    {"entryId": "2", "created_at": "2025-03-30T17:37:34.759132+00:00", "mood": 3, "screenTime": 3,
-                     "sleep": 6.5, "steps": 12431, "userID": "", "water": 2.1, "work": 1.3}
-                ]
                 today = datetime.datetime.now(tz=datetime.timezone.utc).strftime("%Y-%m-%d")
-                return render_template('components/previous_inputs.html', submissions=submissions, today=today)
+                return render_template('components/previous_inputs.html', today=today)
             return redirect(url_for('home'))
 
         @self.app.route('/goals')
