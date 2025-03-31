@@ -182,3 +182,14 @@ class DB():
         except:
             return False
         
+    def editEntry(self, data) -> bool:
+        data['userID'] = self.getUserID()
+        try:
+            response = self.supabase.table('entry').upsert(data).execute()
+            return True
+        except Exception as e:
+            print("Exception during upsert:", str(e))
+            return False
+
+    def deleteEntry(self, entryID) -> bool:
+        return False

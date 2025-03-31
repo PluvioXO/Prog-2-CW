@@ -70,7 +70,6 @@ function editEntry(entryID, sleep, mood, screenTime, water, steps, work) {
     document.getElementById("edit-steps").value = steps;
     document.getElementById("edit-work").value = work;
 
-    //actually edit the entry
 }
 
 // Cancel Edit
@@ -87,6 +86,51 @@ function confirmDelete(entryID) {
 }
 
 document.addEventListener("DOMContentLoaded", fetchData);
+
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    //actually editing data
+    document.getElementById("edit-entry-btn").addEventListener("click", async function(event){
+        event.preventDefault();
+        data = getEditedData();
+        const response = await fetch('/edit-entry-data', {
+            method: 'POST', // Change to 'POST' if sending data
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        
+
+    });
+
+});
+
+
+function getEditedData(){
+    entryID =document.getElementById("edit-entry-id").value
+    sleep = document.getElementById("edit-sleep").value
+    mood = document.getElementById("edit-mood").value
+    screenTime = document.getElementById("edit-screen-time").value
+    water = document.getElementById("edit-water").value
+    steps = document.getElementById("edit-steps").value
+    work = document.getElementById("edit-work").value
+
+    //actually edit the entry
+
+    const data = {
+        'entryID' : parseInt(entryID),
+        'sleep'   : parseFloat(sleep),
+        'mood' : parseInt(mood),
+        'screenTime': parseFloat(screenTime),
+        'water': parseFloat(water),
+        'steps': parseFloat(steps),
+        'work': parseFloat(work)
+    };
+
+    return data
+}
 
 
 

@@ -238,8 +238,20 @@ class App():
         @self.app.route('/get-data', methods=['GET'])
         def getData() -> dict:
             return self.supabase.getAllData()
-    
-    
+        
+        @self.app.route('/edit-entry-data', methods=['POST'])
+        def editEntry() -> Flask.route:
+            try:
+                print("editing entry")
+                data = request.json
+                print(data)
+                self.supabase.editEntry(data)
+                print()
+                return redirect(url_for('home'))
+
+            except:
+                return redirect(url_for('home'))
+                 
     def run(self, debug=True):
         self.app.run(debug=debug)
 
