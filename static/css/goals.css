@@ -54,6 +54,12 @@ body {
     font-weight: bold;
 }
 
+.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .main-container {
     padding: 20px;
     text-align: center;

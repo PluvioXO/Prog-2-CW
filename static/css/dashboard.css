@@ -54,6 +54,11 @@ body {
     font-weight: bold;
 }
 
+.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
 .main-content {
     flex-grow: 1;
     padding: 20px;

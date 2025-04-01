@@ -268,6 +268,23 @@ class App():
             except:
                 return redirect(url_for('home'))
 
+        @self.app.route('/check-entry-exists', methods=['GET'])
+        def check_entry_exists():
+            if self.supabase.isLoggedIn():
+                user_id = self.supabase.getUserID()
+                current_date = datetime.datetime.now(tz=datetime.timezone.utc).strftime("%Y-%m-%d")
+
+                all_data = self.supabase.getAllData()
+
+                entry_exists = any(
+                    entry["userID"] == user_id and entry["created_at"][:10] == current_date
+                    for entry in all_data
+                )
+
+                return jsonify({'exists': entry_exists})
+
+            return jsonify({'exists': False})
+
     def run(self, debug=True):
         self.app.run(debug=debug)
 

@@ -48,6 +48,12 @@ body {
     background: rgba(255, 255, 255, 0.4);
 }
 
+.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .profile-link {
     margin-top: auto;
     margin-bottom: 20px;

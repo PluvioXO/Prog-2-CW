@@ -98,6 +98,8 @@ function confirmDelete(entryID) {
             body: JSON.stringify({'entryID':entryID})
         });
 
+        window.location.reload();
+
 
     }
 }
