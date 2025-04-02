@@ -216,7 +216,17 @@ class App():
                 password = data.get('new_password')
                 cfm_password = data.get('new_cfm_password')
         
-                if password == cfm_password:
+                has_lower = False
+                has_upper = False
+                has_number = False
+                for char in password:
+                    if char.islower():
+                        has_lower = True
+                    elif char.isupper():
+                        has_upper = True
+                    elif char.isdigit():
+                        has_number = True
+                if password == cfm_password and len(password) >= 7 and has_lower and has_upper and has_number:
                     
                     # change password on supabase
                     self.supabase.changePassword(cfm_password)
