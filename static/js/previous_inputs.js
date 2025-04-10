@@ -27,7 +27,7 @@ function displayData(entries) {
         return;
     }
 
-    entries.forEach(entry => {
+    entries.slice().reverse().forEach(entry => {
         const entryDate = entry.created_at.substring(0, 10);
         const entryTime = entry.created_at.substring(11, 16);
 

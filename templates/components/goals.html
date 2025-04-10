@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/goals.css') }}">
     <script src="{{ url_for('static', filename='js/goals.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/global.js') }}"></script>
     <title>Goals</title>
 </head>
 <body onload="startUp()">
@@ -21,47 +22,75 @@
         <h1 class="goals-heading">Daily Goals</h1>
 
         <div class="goals-container">
-            <div class="goal">Sleep 
+            <div class="goal" id="sleepGoalCard">
+                <p>Sleep</p>
                 <div class="progress-bar" id="PBar1">
                     <div class="progress" id="P1"></div>
-                </div><p id="sleepText">Current goal: 50   Current progress: 30</p>
-                <input type="text" class="goal-input" placeholder="Change goal:" id="goalChangeInput1"/>
-                <button class="goal-button" id="goalChange1" onclick="changeGoal(1)">Submit</button>
+                </div>
+                <p id="sleepText">Current goal: Not set   Timeframe: Not set</p>
+                <p id="sleepRemainingTime">Time Remaining:</p>
+                <button class="goal-button" id="goalChange1" onclick="openGoalModal('sleep')">Set Goal</button>
             </div>
-            <div class="goal">Mood
+            <!-- Screen Time Goal -->
+            <div class="goal" id="screenGoalCard">
+                <p>Screen Time</p>
                 <div class="progress-bar" id="PBar2">
-                    <div class="progress" id="P2"></div> 
-                </div><p id="moodText">Current goal: 25    Current progress: 15</p> 
-                <input type="text" class="goal-input" placeholder="Change goal:" id="goalChangeInput2"/>
-                <button class="goal-button" id="goalChange2" onclick="changeGoal(2)">Submit</button>
+                    <div class="progress" id="P2"></div>
+                </div>
+                <p id="screenText">Current goal: Not set   Timeframe: Not set</p>
+                <p id="screenTimeRemainingTime">Time Remaining:</p>
+                <button class="goal-button" id="goalChange2" onclick="openGoalModal('screenTime')">Set Goal</button>
             </div>
-            <div class="goal">Screen Time
+            <!-- Water Goal -->
+            <div class="goal" id="waterGoalCard">
+                <p>Water Intake</p>
                 <div class="progress-bar" id="PBar3">
-                    <div class="progress" id="P3"></div> 
-                </div><p id="screenText">Current goal: 25    Current progress: 15</p> 
-                <input type="text" class="goal-input" placeholder="Change goal:" id="goalChangeInput3"/>
-                <button class="goal-button" id="goalChange3" onclick="changeGoal(3)">Submit</button>
+                    <div class="progress" id="P3"></div>
+                </div>
+                <p id="waterText">Current goal: Not set   Timeframe: Not set</p>
+                <p id="waterRemainingTime">Time Remaining:</p>
+                <button class="goal-button" id="goalChange3" onclick="openGoalModal('water')">Set Goal</button>
             </div>
-            <div class="goal">Water
+            <!-- Steps Goal -->
+            <div class="goal" id="stepsGoalCard">
+                <p>Steps</p>
                 <div class="progress-bar" id="PBar4">
-                    <div class="progress" id="P4"></div> 
-                </div><p id="waterText">Current goal: 15    Current progress: 0</p>
-                <input type="text" class="goal-input" placeholder="Change goal:" id="goalChangeInput4"/>
-                <button class="goal-button" id="goalChange4" onclick="changeGoal(4)">Submit</button>
+                    <div class="progress" id="P4"></div>
+                </div>
+                <p id="stepText">Current goal: Not set   Timeframe: Not set</p>
+                <p id="stepsRemainingTime">Time Remaining:</p>
+                <button class="goal-button" id="goalChange4" onclick="openGoalModal('steps')">Set Goal</button>
             </div>
-            <div class="goal">Steps
-                <div class="progress-bar" id="PBar4">
-                    <div class="progress" id="P5"></div> 
-                </div><p id="stepText">Current goal: 50000    Current progress: 20000</p>
-                <input type="text" class="goal-input" placeholder="Change goal:" id="goalChangeInput5"/>
-                <button class="goal-button" id="goalChange5" onclick="changeGoal(5)">Submit</button>
+            <!-- Work Goal -->
+            <div class="goal" id="workGoalCard">
+                <p>Hours of Work</p>
+                <div class="progress-bar" id="PBar5">
+                    <div class="progress" id="P5"></div>
+                </div>
+                <p id="workText">Current goal: Not set   Timeframe: Not set</p>
+                <p id="workRemainingTime">Time Remaining:</p>
+                <button class="goal-button" id="goalChange5" onclick="openGoalModal('work')">Set Goal</button>
             </div>
-            <div class="goal">Hours of Work
-                <div class="progress-bar" id="PBar4">
-                    <div class="progress" id="P6"></div> 
-                </div><p id="workText">Current goal: 20    Current progress: 10</p>
-                <input type="text" class="goal-input" placeholder="Change goal:" id="goalChangeInput6"/>
-                <button class="goal-button" id="goalChange6" onclick="changeGoal(6)">Submit</button>
+            <!-- Mood Goal -->
+            <div class="goal" id="moodGoalCard">
+                <p>Mood</p>
+                <div class="progress-bar" id="PBar6">
+                    <div class="progress" id="P6"></div>
+                </div>
+                <p id="moodText">Current goal: Not set   Timeframe: Not set</p>
+                <p id="workRemainingTime">Time Remaining:</p>
+                <button class="goal-button" id="goalChange6" onclick="openGoalModal('mood')">Set Goal</button>
+            </div>
+        </div>
+        <div id="goalModal" class="modal">
+            <div class="modal-content">
+                <h2>Set Goal</h2>
+                <label for="goalInput">Goal:</label>
+                <input type="text" id="goalInput" placeholder="Enter goal value" />
+                <label for="timeframeInput">Timeframe (in days):</label>
+                <input type="number" id="timeframeInput" placeholder="Enter timeframe" />
+                <button id='submit-goal-btn' onclick="submitGoal()">Set Goal</button>
+                <button id="close-goal-btn" onclick="closeModal()">Cancel</button>
             </div>
         </div>
     </div>
