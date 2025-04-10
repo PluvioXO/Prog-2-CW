@@ -195,8 +195,6 @@ class App():
                     self.supabase.addEntry(user_data)
                     print("Added to entry table")
                 else:
-                    #insert visual cue to user that data entry was unsuccessful
-                    print("User has already inputted today")
                     return redirect(url_for('previous_inputs'))
 
                 return redirect(url_for('dashboard'))

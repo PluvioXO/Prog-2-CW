@@ -57,7 +57,6 @@ body {
 .disabled {
     pointer-events: none;
     opacity: 0.5;
-    cursor: not-allowed;
 }
 
 .main-container {
@@ -137,6 +136,89 @@ body {
 
 .goal-button:hover {
     background-color: #248eb2;
+}
+
+.modal {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(to right, #28a745, #48c774);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    width: 80%;
+    text-align: left;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal h2 {
+    text-align: center;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.modal label {
+    color: white;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.modal input[type="text"],
+.modal input[type="number"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.modal .modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+#submit-goal-btn {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+#submit-goal-btn:hover {
+    background-color: #218838;
+}
+
+#close-goal-btn {
+    background-color: #dc3545;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+#close-goal-btn:hover {
+    background-color: #c82333;
+}
+
+button:hover {
+    opacity: 0.8;
 }
 
 @media (max-width: 1200px) {
