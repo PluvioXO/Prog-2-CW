@@ -1,24 +1,23 @@
-var sleepGoal = 50;
-var waterGoal = 15;
-var screenGoal = 30;
-var stepGoal = 50000;
-var moodGoal = 25;
-var workGoal = 20;
+var sleepGoal = 8;
+var waterGoal = 3;
+var screenGoal = 5;
+var stepGoal = 10000;
+var moodGoal = 3;
+var workGoal = 5;
 
 
-var sleepProgress = 30;
-var waterProgress = 0;
-var screenProgress = 15;
-var stepProgress = 20000;
-var moodProgress = 15;
-var workProgress = 10;
+var sleepProgress = 1;
+var waterProgress = 1;
+var screenProgress = 1;
+var stepProgress = 1;
+var moodProgress = 1;
+var workProgress = 1;
 var progressBar;
 //placeholder values
 
 function isNumber(str) {
     if (typeof str !== "string") return false; 
-    return !isNaN(str) && !isNaN(parseFloat(str));
-}
+    return !isNaN(str) && !isNaN(parseFloat(str)); }
 
 function changeGoal(metric) {
 
