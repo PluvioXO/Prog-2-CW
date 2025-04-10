@@ -4,6 +4,7 @@ class DB():
     def __init__(self, url: str, key: str) -> Client:
         self.url = url
         self.key = key
+        self.adminKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh5b3FmZGhvbWFsZ2VlcmZ1dHpmIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0MjkzOTc5MCwiZXhwIjoyMDU4NTE1NzkwfQ.xAhYK8RkkkRPx5ulQ3uJgqYtdn9ubTQr0KFNlYKiObU";
         self.supabase = create_client(url,key)
     
     #UTIL METHODS
@@ -72,10 +73,10 @@ class DB():
             try:
                 
                 #Struggling here
-
-                admin_supabase = create_client(self.url, self.key)  #Switch to admin
-                response = admin_supabase.auth.admin.delete_user(userID)
+                adminClient = create_client(self.url, self.adminKey)
+                response = adminClient.auth.admin.delete_user(userID)
                 print("Response:", response)  # Print response to check
+                del adminClient
             except Exception as e:
                 print("Error:", e)
                 return False
