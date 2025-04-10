@@ -63,6 +63,7 @@ class DB():
 
             try:
                 adminClient = create_client(self.url, self.adminKey)
+                self.signout
                 response = adminClient.auth.admin.delete_user(UUID)
                 print("Response:", response)  
                 del adminClient
