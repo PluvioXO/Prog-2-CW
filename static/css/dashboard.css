@@ -54,6 +54,11 @@ body {
     font-weight: bold;
 }
 
+.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
 .main-content {
     flex-grow: 1;
     padding: 20px;
@@ -85,8 +90,8 @@ body {
 }
 
 .big-card {
-    width: 100%; /* ✅ Adjust width */
-    max-width: 1000px; /* ✅ Prevents it from getting too wide */
+    width: 100%;
+    max-width: 1000px;
     min-height: 350px;
     background: linear-gradient(to right, #ffcc00, #ffa500);
     color: white;
@@ -117,10 +122,12 @@ body {
     .metrics-grid {
         grid-template-columns: 1fr;
         max-width: 80%;
+        margin-left: 65px;
     }
 
     .metric-card {
         max-width: 80%;
+
     }
 
     .big-card {

@@ -2,6 +2,8 @@ from supabase import create_client, Client
 
 class DB():
     def __init__(self, url: str, key: str) -> Client:
+        self.url = url
+        self.key = key
         self.supabase = create_client(url,key)
     
     #UTIL METHODS
@@ -22,7 +24,7 @@ class DB():
             print(error)
             return False
         
-    def signup(self, eml: str, pss: str) -> bool:
+    def signup(self, eml: str, pss: str) -> bool: # needs to take name and dob now asw
         try: 
             self.supabase.auth.sign_up({"email": eml, "password": pss})
             return True
@@ -61,7 +63,27 @@ class DB():
             return user_id
         except: 
             return None 
-        
+    
+    def deleteUser(self) -> bool:
+        try:
+
+            userID = self.getUserID()
+
+            try:
+                
+                #Struggling here
+
+                admin_supabase = create_client(self.url, self.key)  #Switch to admin
+                response = admin_supabase.auth.admin.delete_user(userID)
+                print("Response:", response)  # Print response to check
+            except Exception as e:
+                print("Error:", e)
+                return False
+            return True
+        except: 
+            return False 
+    
+
     #QUERY METHODS [All are obtained from the given uuid from auth table. No need for the email or password to be parsed to any method]
     def set_water(self, cups : int) -> bool:
         try:
@@ -87,7 +109,7 @@ class DB():
         except:
             return False
 
-    def set_meaningful_work_hours(self, meaningful_work_hours : float) -> bool:
+    def set_meaningful_work_hours(self, work : float) -> bool:
         try:
             return self.supabase.from_("userData").update({"work": work}).eq("uuid", self.getUUID).execute() is not None
         except:
@@ -160,3 +182,24 @@ class DB():
         except:
             return False
         
+    def editEntry(self, data) -> bool:
+        data['userID'] = self.getUserID()
+        try:
+            response = self.supabase.table('entry').upsert(data).execute()
+            return True
+        except Exception as e:
+            print("Exception during upsert:", str(e))
+            return False
+
+    def deleteEntry(self, data) -> bool:
+        try:
+            response = (
+                self.supabase.table("entry")
+                .delete()
+                .eq("entryID", data.get('entryID'))
+                .execute()
+            )
+            print("entry deletes")
+            return True
+        except:
+            return False

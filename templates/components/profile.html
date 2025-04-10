@@ -6,12 +6,14 @@
     <title>Profile & Settings</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
     <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/global.js') }}"></script>
 </head>
 <body>
     <div class="sidebar">
         <h2 class="sidebar-title">Menu</h2>
         <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
         <a href="{{ url_for('input') }}" class="nav-link">Input Data</a>
+        <a href="{{ url_for('previous_inputs') }}" class="nav-link">Previous Submissions</a>
         <a href="{{ url_for('goals') }}" class="nav-link">Goals</a>
         <a href="{{ url_for('profile') }}" class="nav-link active profile-link">Profile</a>
     </div>
@@ -22,8 +24,21 @@
         <div class="profile-card">
             <h2>Account Information</h2>
             <div class="field">
+                <label>Name:</label>
+                <p class="profile-text">{{ name }}</p>
+            </div>
+
+            <div class="field">
+                <label>DOB:</label>
+                <p class="profile-text">{{ dob }}</p>
+            </div>
+
+            <div class="field">
                 <label>Email:</label>
-                <p class="eml-text">{{ eml }}</p>
+                <div class="email-container">
+                    <p class="profile-text" id="masked-email">{{ eml }}</p>
+                    <button class="toggle-email-button" id="show-eml-button" onclick="toggleEmail()">Show</button>
+                </div>
             </div>
 
             <div class="field">
@@ -48,9 +63,11 @@
             </div>
 
             <div class="profile-buttons">
-                <a class='save-btn' id="save-btn" href="{{ url_for('save_changes') }}">Save Changes</a>
+                <a class='save-btn' id="save-btn" href="{{ url_for('dashboard') }}">Save Changes</a>
                 <a class='logout-btn' href="{{ url_for('logout') }}">Logout</a>
+                <a class="delete-profile-btn" id="delete-profile-btn" href="{{ url_for('logout') }}">Delete Profile</a>
             </div>
+
         </div>
     </div>
 </body>

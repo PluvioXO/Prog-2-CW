@@ -47,6 +47,12 @@ body {
     background: rgba(255, 255, 255, 0.4);
 }
 
+.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .profile-link {
     margin-top: auto;
     margin-bottom: 20px;
@@ -62,10 +68,12 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 .profile-card {
-    background: rgba(255, 255, 255, 0.15);
+    background: linear-gradient(to right, rgba(40,167,69,0.7), rgba(72,199,116,0.7));
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
@@ -75,7 +83,7 @@ body {
     align-items: center;
 }
 
-.eml-text {
+.profile-text {
     font-size: 16px;
     font-weight: bold;
 }
@@ -120,7 +128,25 @@ a {
     text-decoration: none;
 }
 
-.show-hide-password {
+.email-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 400px;
+    padding: 10px 15px;
+}
+
+.profile-text#masked-email {
+    font-size: 16px;
+    font-weight: bold;
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.show-hide-password, .toggle-email-button {
     padding: 10px 15px;
     border: 1px solid #ccc;
     border-left: none;
@@ -134,7 +160,7 @@ a {
     text-align: center;
 }
 
-.show-hide-password:hover {
+.show-hide-password:hover, .toggle-email-button:hover {
     background-color: #ddd;
 }
 
@@ -145,7 +171,7 @@ a {
     margin-top: auto;
 }
 
-.save-btn, .logout-btn {
+.save-btn, .logout-btn, .delete-profile-btn {
     padding: 10px 20px;
     font-size: 16px;
     border: none;
@@ -167,16 +193,21 @@ a {
 }
 
 .logout-btn {
+    background-color: #e9aa13;
+    color: white;
+}
+
+.logout-btn:hover{
+    background-color: #f19b0e;
+}
+
+.delete-profile-btn {
     background-color: #dc3545;
     color: white;
 }
 
-.logout-btn:hover {
+.delete-profile-btn:hover {
     background-color: #c82333;
-}
-
-.logout-btn:hover {
-    background: #b21f2d;
 }
 
 .theme-switch {

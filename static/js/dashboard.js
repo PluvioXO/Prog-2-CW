@@ -8,8 +8,8 @@ async function fetchData() {
             }
         });
 
-        const data = await response.json(); // Parse JSON response
-        console.log("Data received:", data);
+        const data = await response.json(); 
+        console.log("Data received:", data);  //Just printing the data into the console for now
         return data;
 
     } catch (error) {

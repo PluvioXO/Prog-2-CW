@@ -54,6 +54,12 @@ body {
     font-weight: bold;
 }
 
+.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .main-container {
     padding: 20px;
     text-align: center;
@@ -146,13 +152,9 @@ body {
 }
 
 @media (max-width: 1024px) {
-    .sidebar {
-        width: 220px;
-    }
-
     .main-container {
-        width: calc(100% - 230px);
-        margin-left: 230px;
+        width: calc(100% - 250px);
+        margin-left: 250px;
     }
 
     .goal {

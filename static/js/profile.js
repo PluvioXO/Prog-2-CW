@@ -11,18 +11,23 @@ function toggler_2(btn) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+    const emailElement = document.getElementById("masked-email");
+
+    if (emailElement) {
+        const email = emailElement.textContent.trim();
+        emailElement.dataset.fullEmail = email;
+        emailElement.textContent = maskEmail(email);
+    }
 
     document.getElementById("save-btn").addEventListener("click", async function(event){
         event.preventDefault();
-        
-        //Getting strings from input stuff
+
         const newPassword = document.getElementById("new-password").value;
         const newCFMPassword = document.getElementById("new-cfm-password").value;
 
         console.log(newPassword);
         console.log(newCFMPassword);
 
-        // Posting into the backend
         const response = await fetch('/save-changes', {
             method: 'POST',
             headers: {
@@ -35,4 +40,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
         });
     });
+
+
+    document.getElementById("delete-profile-btn").addEventListener("click", async function(event){
+        event.preventDefault();
+        fetch('/delete-profile', { method: 'GET' })  // Works too
+
+    });
 });
+
+function maskEmail(email) {
+    const [localPart, domain] = email.split("@");
+    return "*".repeat(localPart.length) + "@" + domain;
+}
+
+function toggleEmail() {
+    const emailElement = document.getElementById("masked-email");
+    const currentEmail = emailElement.textContent;
+
+    if (currentEmail.includes("*")) {
+        emailElement.textContent = emailElement.dataset.fullEmail;
+        document.getElementById("show-eml-button").innerHTML = "Hide";
+    } else {
+        emailElement.textContent = maskEmail(emailElement.dataset.fullEmail);
+        document.getElementById("show-eml-button").innerHTML = "Show";
+    }
+}
