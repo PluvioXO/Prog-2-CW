@@ -18,11 +18,9 @@ async function fetchData() {
 
         const data = await response.json();
         console.log("Data received:", data);
-        loadUserData(data)
-
-    } catch (error) {
-        console.error("Error fetching data:", error);
-    }
+        loadUserData(data);
+    }  catch (error) {
+    console.error("Error fetching data:", error);}
 }
 
 function calculateDaysElapsed(date) {
@@ -46,7 +44,7 @@ function calculateMoodProgress(entries) {
     entries.forEach(entry => {
         total += entry['mood'];
     });
-    return total/length;
+    return total / length;
 }
 
 function updateProgressBar(barId, goal, timeframe, currentProgress) {
@@ -120,41 +118,58 @@ function submitGoal() {
         const goalText = `${goalValue} hours in ${timeframe} days`;
         userGoals.sleep.goal = goalValue;
         userGoals.sleep.timeframe = timeframe;
-        document.getElementById("sleepText").innerText = `Current goal: ${goalText}`;
-        updateProgressBar('P1', goalValue, timeframe, userGoals.sleep.currentProgress);
-    } else if (currentGoalCategory === "screenTime") {
+        if (((goalValue) >=0) && (goalValue <= 24 * timeframe)) {
+            document.getElementById("sleepText").innerText = `Current goal: ${goalText}`;
+            updateProgressBar('P1', goalValue, timeframe, userGoals.sleep.currentProgress);
+        }
+    }
+    else if (currentGoalCategory === "screenTime") {
         const goalText = `${goalValue} hours in ${timeframe} days`;
         userGoals.screenTime.goal = goalValue;
         userGoals.screenTime.timeframe = timeframe;
-        document.getElementById("screenText").innerText = `Current goal: ${goalText}`;
-        updateProgressBar('P2', goalValue, timeframe, userGoals.screenTime.currentProgress);
-    } else if (currentGoalCategory === "water") {
+        if ((goalValue >=0) && (goalValue <= 24 * timeframe)) {
+            document.getElementById("screenText").innerText = `Current goal: ${goalText}`;
+            updateProgressBar('P2', goalValue, timeframe, userGoals.screenTime.currentProgress);
+        }
+    }
+    else if (currentGoalCategory === "water") {
         const goalText = `${goalValue} litres in ${timeframe} days`;
         userGoals.water.goal = goalValue;
         userGoals.water.timeframe = timeframe;
-        document.getElementById("waterText").innerText = `Current goal: ${goalText}`;
-        updateProgressBar('P3', goalValue, timeframe, userGoals.water.currentProgress);
-    } else if (currentGoalCategory === "steps") {
+        if ((goalValue >=0) && (goalValue <= 20 * timeframe)) {
+            document.getElementById("waterText").innerText = `Current goal: ${goalText}`;
+            updateProgressBar('P3', goalValue, timeframe, userGoals.water.currentProgress);
+        }
+    }
+    else if (currentGoalCategory === "steps") {
         const goalText = `${goalValue} steps in ${timeframe} days`;
         userGoals.steps.goal = goalValue;
         userGoals.steps.timeframe = timeframe;
-        document.getElementById("stepText").innerText = `Current goal: ${goalText}`;
-        updateProgressBar('P4', goalValue, timeframe, userGoals.steps.currentProgress);
-    } else if (currentGoalCategory === "work") {
+        if ((goalValue >=0) && (goalValue <= 300000 * timeframe)) {
+            document.getElementById("stepText").innerText = `Current goal: ${goalText}`;
+            updateProgressBar('P4', goalValue, timeframe, userGoals.steps.currentProgress);
+        }
+    }
+    else if (currentGoalCategory === "work") {
         const goalText = `${goalValue} hours in ${timeframe} days`;
         userGoals.work.goal = goalValue;
         userGoals.work.timeframe = timeframe;
-        document.getElementById("workText").innerText = `Current goal: ${goalText}`;
-        updateProgressBar('P5', goalValue, timeframe, userGoals.work.currentProgress);
-    } else if (currentGoalCategory === "mood") {
+        if ((goalValue >=0) && (goalValue <= 24 * timeframe)) {
+            document.getElementById("workText").innerText = `Current goal: ${goalText}`;
+            updateProgressBar('P5', goalValue, timeframe, userGoals.work.currentProgress);
+        }
+    }
+    else if (currentGoalCategory === "mood") {
         const goalText = `Mood rating of ${goalValue} in ${timeframe} days`;
         userGoals.mood.goal = goalValue;
         userGoals.mood.timeframe = timeframe;
-        document.getElementById("moodText").innerText = `Current goal: ${goalText}`;
-        updateProgressBar('P6', goalValue, timeframe, userGoals.mood.currentProgress);
+        if ((goalValue >=0) && (goalValue <= 5)) {
+            document.getElementById("moodText").innerText = `Current goal: ${goalText}`;
+            updateProgressBar('P6', goalValue, timeframe, userGoals.mood.currentProgress);
+        }
     }
 
     closeModal();
-}
+    }
 
-document.addEventListener("DOMContentLoaded", fetchData);
+    document.addEventListener("DOMContentLoaded", fetchData);
