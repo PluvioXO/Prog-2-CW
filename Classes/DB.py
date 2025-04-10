@@ -55,27 +55,16 @@ class DB():
             return True
         else:
             return False
-        
-    def getUserID(self) -> bool:
-        try:
-            user = self.supabase.auth.get_user()
-            user_id = user.user.id
-
-            return user_id
-        except: 
-            return None 
     
     def deleteUser(self) -> bool:
         try:
 
-            userID = self.getUserID()
+            UUID = self.getUUID()
 
             try:
-                
-                #Struggling here
                 adminClient = create_client(self.url, self.adminKey)
-                response = adminClient.auth.admin.delete_user(userID)
-                print("Response:", response)  # Print response to check
+                response = adminClient.auth.admin.delete_user(UUID)
+                print("Response:", response)  
                 del adminClient
             except Exception as e:
                 print("Error:", e)
@@ -175,7 +164,7 @@ class DB():
             response = (
                     self.supabase.table("entry")
                     .select("*")
-                    .eq("userID", self.getUserID())
+                    .eq("userID", self.getUUID())
                     .execute()
                 )
             print(response)
@@ -184,7 +173,7 @@ class DB():
             return False
         
     def editEntry(self, data) -> bool:
-        data['userID'] = self.getUserID()
+        data['userID'] = self.getUUID()
         try:
             response = self.supabase.table('entry').upsert(data).execute()
             return True

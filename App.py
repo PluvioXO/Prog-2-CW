@@ -170,7 +170,7 @@ class App():
 
                 global user_data
                 user_data = {
-                    "userID": self.supabase.getUserID(),
+                    "userID": self.supabase.getUUID(),
                     #"timestamp": datetime.datetime.now(tz=datetime.timezone.utc).isoformat(),
                     "sleep": float(request.form.get("sleep")),
                     "mood": int(request.form.get("mood")),
@@ -279,7 +279,7 @@ class App():
         @self.app.route('/check-entry-exists', methods=['GET'])
         def check_entry_exists():
             if self.supabase.isLoggedIn():
-                user_id = self.supabase.getUserID()
+                user_id = self.supabase.getUUID()
                 current_date = datetime.datetime.now(tz=datetime.timezone.utc).strftime("%Y-%m-%d")
 
                 all_data = self.supabase.getAllData()
