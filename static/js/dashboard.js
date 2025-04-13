@@ -1,5 +1,3 @@
-// dashboard.js
-
 let allData = [];
 let charts = {};
 const metrics = ['sleep', 'mood', 'screenTime', 'water', 'steps', 'work'];
