@@ -78,13 +78,14 @@
                     <div class="progress" id="P6"></div>
                 </div>
                 <p id="moodText">Current goal: Not set   Timeframe: Not set</p>
-                <p id="workRemainingTime">Time Remaining:</p>
+                <p id="moodRemainingTime">Time Remaining:</p>
                 <button class="goal-button" id="goalChange6" onclick="openGoalModal('mood')">Set Goal</button>
             </div>
         </div>
         <div id="goalModal" class="modal">
             <div class="modal-content">
                 <h2>Set Goal</h2>
+                <p id="goalMetricName"></p>
                 <label for="goalInput">Goal:</label>
                 <input type="text" id="goalInput" placeholder="Enter goal value" />
                 <label for="timeframeInput">Timeframe (in days):</label>

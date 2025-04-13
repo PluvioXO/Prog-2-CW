@@ -221,6 +221,13 @@ button:hover {
     opacity: 0.8;
 }
 
+#goalMetricName {
+    text-align: center;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 10px;
+}
+
 @media (max-width: 1200px) {
     .main-container {
         margin-left: 260px;

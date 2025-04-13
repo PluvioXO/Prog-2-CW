@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
     <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
     <script src="{{ url_for('static', filename='js/global.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Dashboard</title>
 </head>
 <body>
@@ -24,39 +25,75 @@
         <div class="big-card-container">
             <div class="big-card">
                 <h3>Overview</h3>
-                <p>All metrics on one graph here</p>
+                <canvas id="overviewChart"></canvas>
             </div>
         </div>
         <div class="metrics-grid">
             <div class="metric-card">
                 <h3>Sleep</h3>
-                <p> Insert graph here </p>
-                <p> Last recorded: </p>
+                <select id="sleepRange" onchange="updateChart('sleep')">
+                    <option value="7" selected>Last 7 Days</option>
+                    <option value="30">Last 30 Days</option>
+                    <option value="90">Last 90 Days</option>
+                    <option value="all">All Time</option>
+                </select>
+                <canvas id="sleepChart"></canvas>
+                <p> Last recorded: <span id="sleepLast"></span></p>
             </div>
             <div class="metric-card">
                 <h3>Mood</h3>
-                <p> Insert graph here </p>
-                <p> Last recorded: </p>
+                <select id="moodRange" onchange="updateChart('mood')">
+                    <option value="7" selected>Last 7 Days</option>
+                    <option value="30">Last 30 Days</option>
+                    <option value="90">Last 90 Days</option>
+                    <option value="all">All Time</option>
+                </select>
+                <canvas id="moodChart"></canvas>
+                <p> Last recorded: <span id="moodLast"></span></p>
             </div>
             <div class="metric-card">
                 <h3>Screen Time</h3>
-                <p> Insert graph here </p>
-                <p> Last recorded: </p>
+                <select id="screenTimeRange" onchange="updateChart('screenTime')">
+                    <option value="7" selected>Last 7 Days</option>
+                    <option value="30">Last 30 Days</option>
+                    <option value="90">Last 90 Days</option>
+                    <option value="all">All Time</option>
+                </select>
+                <canvas id="screenTimeChart"></canvas>
+                <p> Last recorded: <span id="screenTimeLast"></span></p>
             </div>
             <div class="metric-card">
                 <h3>Water Intake</h3>
-                <p> Insert graph here </p>
-                <p> Last recorded: </p>
+                <select id="waterRange" onchange="updateChart('water')">
+                    <option value="7" selected>Last 7 Days</option>
+                    <option value="30">Last 30 Days</option>
+                    <option value="90">Last 90 Days</option>
+                    <option value="all">All Time</option>
+                </select>
+                <canvas id="waterChart"></canvas>
+                <p> Last recorded: <span id="waterLast"></span></p>
             </div>
             <div class="metric-card">
                 <h3>Daily Steps</h3>
-                <p> Insert graph here </p>
-                <p> Last recorded: </p>
+                <select id="stepsRange" onchange="updateChart('steps')" >
+                    <option value="7" selected>Last 7 Days</option>
+                    <option value="30">Last 30 Days</option>
+                    <option value="90">Last 90 Days</option>
+                    <option value="all" >All Time</option>
+                </select>
+                <canvas id="stepsChart"></canvas>
+                <p> Last recorded: <span id="stepsLast"></span></p>
             </div>
             <div class="metric-card">
                 <h3>Hours of Meaningful Work</h3>
-                <p> Insert graph here </p>
-                <p> Last recorded: </p>
+                <select id="workRange" onchange="updateChart('work')">
+                    <option value="7" selected>Last 7 Days</option>
+                    <option value="30">Last 30 Days</option>
+                    <option value="90">Last 90 Days</option>
+                    <option value="all" >All Time</option>
+                </select>
+                <canvas id="workChart"></canvas>
+                <p> Last recorded: <span id="workLast"></span></p>
             </div>
         </div>
     </div>
