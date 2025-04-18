@@ -25,6 +25,39 @@
         <div class="big-card-container">
             <div class="big-card">
                 <h3>Overview</h3>
+                <div class="overview-controls">
+                    <div class="overview-row">
+                        <label for="overviewRange">Time Frame:</label>
+                        <select onchange="updateOverviewChart()" id="overviewRange">
+                            <option value="7" selected>Last 7 Days</option>
+                            <option value="30">Last 30 Days</option>
+                            <option value="90">Last 90 Days</option>
+                            <option value="all">All Time</option>
+                        </select>
+                    </div>
+                    <div class="overview-row">
+                        <label class="metric-label" for="overviewMetric1">Metric 1:</label>
+                        <select onchange="updateOverviewChart()" id="overviewMetric1">
+                            <option value="sleep" selected>Sleep</option>
+                            <option value="mood">Mood</option>
+                            <option value="screenTime">Screen Time</option>
+                            <option value="water">Water Intake</option>
+                            <option value="steps">Daily Steps</option>
+                            <option value="work">Meaningful Work</option>
+                        </select>
+                        <span class="vs-text">vs</span>
+                        <label class="metric-label" for="overviewMetric2">Metric 2:</label>
+                        <select onchange="updateOverviewChart()" id="overviewMetric2">
+                            <option value="sleep">Sleep</option>
+                            <option value="mood" selected>Mood</option>
+                            <option value="screenTime">Screen Time</option>
+                            <option value="water">Water Intake</option>
+                            <option value="steps">Daily Steps</option>
+                            <option value="work">Meaningful Work</option>
+                        </select>
+                    </div>
+                </div>
+
                 <canvas id="overviewChart"></canvas>
             </div>
         </div>

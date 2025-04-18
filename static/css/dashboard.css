@@ -182,3 +182,51 @@ canvas {
         min-height: 220px;
     }
 }
+
+.overview-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.overview-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.vs-text {
+  font-weight: bold;
+  margin: 0 10px;
+  color: white;
+}
+
+.metric-label {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+select {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='10'%20height='10'%20viewBox='0%200%2010%2010'%3E%3Cpolygon%20points='0,0%2010,0%205,10'%20fill='white'%3E%3C/polygon%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px;
+}
+
+select:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+

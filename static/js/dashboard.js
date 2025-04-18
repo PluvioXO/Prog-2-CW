@@ -1005,6 +1005,72 @@ document.addEventListener("DOMContentLoaded", async function () {
         "steps": 14898,
         "work": 3.5,
         "entryID": 114
+    },
+    {
+        "userID": "553993d1-7c18-42b8-9f33-ecc97c20fc7a",
+        "created_at": "2025-04-13T09:49:47.698461+00:00",
+        "sleep": 7.5,
+        "mood": 4,
+        "screenTime": 2.8,
+        "water": 1.8,
+        "steps": 9362,
+        "work": 2.1,
+        "entryID": 115
+    },
+    {
+        "userID": "553993d1-7c18-42b8-9f33-ecc97c20fc7a",
+        "created_at": "2025-04-14T09:49:47.698461+00:00",
+        "sleep": 8.0,
+        "mood": 3,
+        "screenTime": 2.0,
+        "water": 2.3,
+        "steps": 10213,
+        "work": 1.6,
+        "entryID": 116
+    },
+    {
+        "userID": "553993d1-7c18-42b8-9f33-ecc97c20fc7a",
+        "created_at": "2025-04-15T09:49:47.698461+00:00",
+        "sleep": 8.6,
+        "mood": 5,
+        "screenTime": 3.1,
+        "water": 2.2,
+        "steps": 8573,
+        "work": 2.1,
+        "entryID": 117
+    },
+    {
+        "userID": "553993d1-7c18-42b8-9f33-ecc97c20fc7a",
+        "created_at": "2025-04-16T09:49:47.698461+00:00",
+        "sleep": 6.6,
+        "mood": 4,
+        "screenTime": 5.2,
+        "water": 2.7,
+        "steps": 16332,
+        "work": 1.1,
+        "entryID": 118
+    },
+    {
+        "userID": "553993d1-7c18-42b8-9f33-ecc97c20fc7a",
+        "created_at": "2025-04-17T09:49:47.698461+00:00",
+        "sleep": 7.9,
+        "mood": 2,
+        "screenTime": 6.1,
+        "water": 1.3,
+        "steps": 3241,
+        "work": 0.6,
+        "entryID": 119
+    },
+    {
+        "userID": "553993d1-7c18-42b8-9f33-ecc97c20fc7a",
+        "created_at": "2025-04-18T09:49:47.698461+00:00",
+        "sleep": 8.1,
+        "mood": 4,
+        "screenTime": 2.4,
+        "water": 4.1,
+        "steps": 9347,
+        "work": 3.2,
+        "entryID": 120
     }
 ]
 
@@ -1023,28 +1089,34 @@ function initializeCharts() {
         updateChart(metric);
     });
 
-    const overviewSelect = document.getElementById("overviewRange");
+    const overviewSelect = document.getElementById('overviewRange');
     if (overviewSelect) {
-        overviewSelect.addEventListener("change", updateOverviewChart);
+        overviewSelect.addEventListener("change", () => {
+            const range = overviewSelect.value;
+            updateOverviewChart(range);
+        });
     }
-    updateOverviewChart();
+    updateOverviewChart(allData);
 }
 
 function updateChart(metric) {
     const range = document.getElementById(`${metric}Range`).value;
     const filteredData = filterDataByRange(allData, range);
 
-    const labels = filteredData.map(entry => new Date(entry.created_at).toLocaleDateString());
+    const labels = filteredData.map(entry => new Date(entry.created_at).toLocaleDateString('en-GB'));
     const data = filteredData.map(entry => entry[metric]);
 
-    const lastRecordedElement = document.getElementById(`${metric}LastRecorded`);
+    const lastRecordedElement = document.getElementById(`${metric}Last`);
     if (lastRecordedElement) {
         lastRecordedElement.textContent = data.length > 0 ? data[data.length - 1] : 'N/A';
     }
 
-    if (charts[metric]) {
+    try {
         charts[metric].destroy();
+    } catch (e) {
+        console.error(e);
     }
+
 
     const ctx = document.getElementById(`${metric}Chart`).getContext("2d");
     charts[metric] = new Chart(ctx, {
@@ -1054,8 +1126,8 @@ function updateChart(metric) {
             datasets: [{
                 label: capitalizeFirstLetter(metric),
                 data: data,
-                borderColor: "rgba(75, 192, 192, 1)",
-                backgroundColor: "rgba(75, 192, 192, 0.2)",
+                borderColor: getMetricColor(metric),
+                backgroundColor: getMetricColor(metric, 0.2),
                 fill: true,
                 tension: 0.1
             }]
@@ -1066,13 +1138,29 @@ function updateChart(metric) {
                 x: {
                     title: {
                         display: true,
-                        text: "Date"
+                        text: "Date",
+                        color: 'white'
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.2)',
+                        borderColor: 'white'
+                    },
+                    ticks: {
+                        color: 'white'
                     }
                 },
                 y: {
                     title: {
                         display: true,
-                        text: capitalizeFirstLetter(metric)
+                        text: capitalizeFirstLetter(metric),
+                        color: 'white'
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.2)',
+                        borderColor: 'white'
+                    },
+                    ticks: {
+                        color: 'white'
                     },
                     beginAtZero: true
                 }
@@ -1081,67 +1169,121 @@ function updateChart(metric) {
     });
 }
 
+// Update overview chart based on selected metrics
 function updateOverviewChart() {
-    const range = document.getElementById("overviewRange").value;
+    const range = document.getElementById(`overviewRange`).value;
     const filteredData = filterDataByRange(allData, range);
-    const labels = filteredData.map(entry => new Date(entry.created_at).toLocaleDateString());
+    const metric1 = document.getElementById('overviewMetric1').value;
+    const metric2 = document.getElementById('overviewMetric2').value;
 
-    const datasets = metrics.map(metric => ({
-        label: capitalizeFirstLetter(metric),
-        data: filteredData.map(entry => entry[metric]),
-        borderColor: getMetricColor(metric),
-        backgroundColor: getMetricColor(metric, 0.2),
-        fill: false,
-        tension: 0.1
-    }));
-
-    if (charts['overview']) {
-        charts['overview'].destroy();
+    if (metric1 === metric2) {
+        alert("Please select two different metrics.");
+        return;
     }
 
-    const ctx = document.getElementById("overviewChart").getContext("2d");
-    charts['overview'] = new Chart(ctx, {
-        type: "line",
+    // Generate date range
+    const dates = [...new Set(filteredData.map(entry => entry.created_at))].sort();
+    const dateLabels = dates.map(date => new Date(date).toLocaleDateString('en-GB'));
+
+    // Prepare datasets
+    const dataset1 = prepareDataset(filteredData, dates, metric1, 'y');
+    const dataset2 = prepareDataset(filteredData, dates, metric2, 'y1');
+
+    try {
+        overviewChart.destroy();
+    } catch (error) {
+        console.error(error);
+    }
+
+    // Create new chart
+    const ctx = document.getElementById('overviewChart').getContext('2d');
+    overviewChart = new Chart(ctx, {
+        type: 'line',
         data: {
-            labels: labels,
-            datasets: datasets
+            labels: dateLabels,
+            datasets: [dataset1, dataset2]
         },
         options: {
             responsive: true,
-            plugins: {
-                title: {
-                    display: true,
-                    text: "Overview of All Metrics"
-                }
-            },
             scales: {
                 x: {
                     title: {
                         display: true,
-                        text: "Date"
-                    }
+                        text: 'Date'
+                    },
                 },
                 y: {
+                    type: 'linear',
+                    position: 'left',
                     title: {
                         display: true,
-                        text: "Value"
+                        text: capitalizeFirstLetter(metric1)
                     },
-                    beginAtZero: true
+                },
+                y1: {
+                    type: 'linear',
+                    position: 'right',
+                    title: {
+                        display: true,
+                        text: capitalizeFirstLetter(metric2)
+                    },
+                    grid: {
+                        drawOnChartArea: false,
+                    }
                 }
             }
         }
     });
 }
 
-function filterDataByRange(data, range) {
-    if (range === 'all') return data;
+// Prepare dataset for a specific metric
+function prepareDataset(data, dates, metric, yAxisID) {
+    // Map dates to values
+    const dateValueMap = {};
+    data.forEach(entry => {
+        const date = entry.created_at;
+        if (!dateValueMap[date]) {
+            dateValueMap[date] = {};
+        }
+        dateValueMap[date][metric] = entry[metric];
+    });
 
-    const days = parseInt(range);
-    const cutoff = new Date();
-    cutoff.setDate(cutoff.getDate() - days);
+    // Extract values and normalize
+    const values = dates.map(date => dateValueMap[date]?.[metric] || 0);
 
-    return data.filter(entry => new Date(entry.created_at) >= cutoff);
+    return {
+        label: capitalizeFirstLetter(metric),
+        data: values,
+        borderColor: getMetricColor(metric),
+        backgroundColor: getMetricColor(metric, 0.2),
+        yAxisID: yAxisID,
+        fill: false,
+        tension: 0.1
+    };
 }
+
+function filterDataByRange(data, range) {
+  const now = new Date();
+  let startDate;
+
+  switch (range) {
+    case '7':
+      startDate = new Date(now.setDate(now.getDate() - 7));
+      break;
+    case '30':
+      startDate = new Date(now.setDate(now.getDate() - 30));
+      break;
+    case '90':
+      startDate = new Date(now.setDate(now.getDate() - 90));
+      break;
+    case 'all':
+    default:
+      return data;
+  }
+
+  return data.filter(entry => new Date(entry.created_at) >= startDate);
+}
+
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
