@@ -292,6 +292,23 @@ class App():
                 return jsonify({'exists': entry_exists})
 
             return jsonify({'exists': False})
+            
+        @self.app.route('/get-goals', methods=['GET'])
+        def getGoals() -> dict:
+            return self.supabase.getUserGoals()
+        
+        @self.app.route('/create-goal', methods=['POST'])
+        def createGoal() -> dict:
+            try:
+                print("creating goal")
+                data = request.json
+                print(data)
+                self.supabase.createGoal(data)
+                print()
+                return redirect(url_for('home'))
+
+            except:
+                return redirect(url_for('home'))
 
     def run(self, debug=True):
         self.app.run(debug=debug)

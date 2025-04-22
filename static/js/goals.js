@@ -7,6 +7,37 @@ const userGoals = {
         mood: {goal: 4, startDate: '2025-04-10', timeframe: 30}
     };
 
+async function fetchGoals(){
+    try {
+        const response = await fetch("/get-goals", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        const data = await response.json();
+        console.log("Data received:", data);
+
+        // Initialize userGoals
+        const userGoalss ={}
+
+        data.forEach((goal) => {
+            userGoals[goal.category] = {
+                goal: goal.goal,
+                startDate: goal.created_at,
+                timeframe: goal.timeframe,
+            };
+        });
+
+        console.log(userGoalss);
+
+
+    }  catch (error) {
+    console.error("Error fetching data:", error);}
+}
+
+
 async function fetchData() {
     try {
         const response = await fetch("/get-data", {
@@ -147,6 +178,17 @@ function submitGoal() {
                 document.getElementById("sleepText").innerText = `Current goal: ${goalText}`;
                 updateProgressBar(P1, goalValue, timeframe, userGoals.sleep.currentProgress);
                 isValid = true;
+                
+                //Backend stuff
+                data = {"category": "sleep", "timeframe" : timeframe, "goal":goalValue, "points": timeframe }
+                const response = fetch('/create-goal', {
+                    method: 'POST', // Change to 'POST' if sending data
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
             }
             break;
 
@@ -159,6 +201,19 @@ function submitGoal() {
                 document.getElementById("screenText").innerText = `Current goal: ${goalText}`;
                 updateProgressBar(P2, goalValue, timeframe, userGoals.screenTime.currentProgress);
                 isValid = true;
+
+
+                //Backend stuff
+                data = {"category": "screenTime", "timeframe" : timeframe, "goal":goalValue, "points": timeframe }
+                const response = fetch('/create-goal', {
+                    method: 'POST', // Change to 'POST' if sending data
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+
             }
             break;
 
@@ -171,6 +226,17 @@ function submitGoal() {
                 document.getElementById("waterText").innerText = `Current goal: ${goalText}`;
                 updateProgressBar(P3, goalValue, timeframe, userGoals.water.currentProgress);
                 isValid = true;
+
+                //Backend stuff
+                data = {"category": "water", "timeframe" : timeframe, "goal":goalValue, "points": timeframe }
+                const response = fetch('/create-goal', {
+                    method: 'POST', // Change to 'POST' if sending data
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
             }
             break;
 
@@ -183,6 +249,17 @@ function submitGoal() {
                 document.getElementById("stepText").innerText = `Current goal: ${goalText}`;
                 updateProgressBar(P4, goalValue, timeframe, userGoals.steps.currentProgress);
                 isValid = true;
+
+                //Backend stuff
+                data = {"category": "steps", "timeframe" : timeframe, "goal":goalValue, "points": timeframe }
+                const response = fetch('/create-goal', {
+                    method: 'POST', // Change to 'POST' if sending data
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
             }
             break;
 
@@ -195,6 +272,17 @@ function submitGoal() {
                 document.getElementById("workText").innerText = `Current goal: ${goalText}`;
                 updateProgressBar(P5, goalValue, timeframe, userGoals.work.currentProgress);
                 isValid = true;
+
+                //Backend stuff
+                data = {"category": "work", "timeframe" : timeframe, "goal":goalValue, "points": timeframe }
+                const response = fetch('/create-goal', {
+                    method: 'POST', // Change to 'POST' if sending data
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
             }
             break;
 
@@ -207,6 +295,16 @@ function submitGoal() {
                 document.getElementById("moodText").innerText = `Current goal: ${goalText}`;
                 updateProgressBar(P6, goalValue, timeframe, userGoals.mood.currentProgress);
                 isValid = true;
+
+                //Backend stuff
+                data = {"category": "mood", "timeframe" : timeframe, "goal":goalValue, "points": 10 }
+                const response = fetch('/create-goal', {
+                    method: 'POST', // Change to 'POST' if sending data
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
             }
             break;
 
@@ -223,3 +321,4 @@ function submitGoal() {
 }
 
     document.addEventListener("DOMContentLoaded", fetchData);
+    document.addEventListener("DOMContentLoaded", fetchGoals);

@@ -194,3 +194,62 @@ class DB():
             return True
         except:
             return False
+        
+
+    
+    #Goals
+
+    def getUserGoals(self):
+
+        try:
+            response = (
+                    self.supabase.table("goal")
+                    .select("*")
+                    .eq("userID", self.getUUID())
+                    .execute()
+                )
+            print(response)
+            return response.data
+        except:
+            return False
+        
+
+    def deleteGoal(self, goalDict):
+        try:
+            response = (
+                self.supabase.table("goal")
+                .delete()
+                .eq("category", goalDict.get('category'))
+                .eq("userID", self.getUUID())
+                .execute()
+            )
+            print("entry deletes")
+            return True
+        except:
+            return False
+
+
+        return 0
+    
+    def createGoal(self, goalDict):
+        
+        try:
+
+
+            #delete old goal
+            self.deleteGoal(goalDict)
+        
+
+            print(goalDict)
+            goalDict['userID'] = self.getUUID()
+
+            response = (
+                self.supabase.table("goal").insert([goalDict,]).execute()
+            )
+            print(response)
+            return True
+        except:
+            print("flop")
+            return False
+
+        return 0
