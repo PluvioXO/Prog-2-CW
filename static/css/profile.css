@@ -226,3 +226,13 @@ a {
     transform: scale(1.3);
     cursor: pointer;
 }
+
+#points-display {
+    width: 80%;
+    padding: 15px;
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    text-decoration: none;
+    margin: 10px 0;
+}

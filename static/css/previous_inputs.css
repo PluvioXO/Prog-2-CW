@@ -202,6 +202,16 @@ button:hover {
     opacity: 0.85;
 }
 
+#points-display {
+    width: 80%;
+    padding: 15px;
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    text-decoration: none;
+    margin: 10px 0;
+}
+
 @media (max-width: 768px) {
     #edit-form-container {
         width: 90%;

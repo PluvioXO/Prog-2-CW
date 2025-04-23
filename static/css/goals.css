@@ -228,6 +228,16 @@ button:hover {
     margin-bottom: 10px;
 }
 
+#points-display {
+    width: 80%;
+    padding: 15px;
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    text-decoration: none;
+    margin: 10px 0;
+}
+
 @media (max-width: 1200px) {
     .main-container {
         margin-left: 260px;

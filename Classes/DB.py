@@ -200,7 +200,6 @@ class DB():
     #Goals
 
     def getUserGoals(self):
-
         try:
             response = (
                     self.supabase.table("goal")
@@ -208,11 +207,11 @@ class DB():
                     .eq("userID", self.getUUID())
                     .execute()
                 )
-            print(response)
+            print("goals" + response)
             return response.data
         except:
+            print("Goals not found")
             return False
-        
 
     def deleteGoal(self, goalDict):
         try:

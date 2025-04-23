@@ -229,4 +229,12 @@ select:focus {
   box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
 }
 
-
+#points-display {
+    width: 80%;
+    padding: 15px;
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    text-decoration: none;
+    margin: 10px 0;
+}

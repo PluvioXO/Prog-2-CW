@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     checkIfEntryExists();
+    getPoints();
+    updatePointsDisplay();
 });
 
 async function checkIfEntryExists() {
@@ -26,5 +28,23 @@ function disableInputTab() {
         inputTab.classList.add("disabled");
         inputTab.style.pointerEvents = "none";
         inputTab.style.opacity = "0.5";
+    }
+}
+
+let userPoints = 0;
+
+function getPoints() {
+
+}
+
+function updateUserPoints(points) {
+    userPoints += points;
+}
+
+function updatePointsDisplay() {
+    const pointLabel = document.getElementById("points");
+
+    if (pointLabel) {
+        pointLabel.innerHTML = userPoints;
     }
 }

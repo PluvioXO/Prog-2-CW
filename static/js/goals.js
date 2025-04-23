@@ -1,44 +1,12 @@
 const userGoals = {
-        sleep: {goal: 100, startDate: '2025-04-10', timeframe: 14},
-        screenTime: {goal: 28, startDate: '2025-04-10', timeframe: 7},
-        water: {goal: 10, startDate: '2025-04-10', timeframe: 7},
-        steps: {goal: 100000, startDate: '2025-04-10', timeframe: 10},
-        work: {goal: 40, startDate: '2025-04-10', timeframe: 7},
-        mood: {goal: 4, startDate: '2025-04-10', timeframe: 30}
-    };
+        sleep: {created_at: '', goalID: 1, timeframe: 0, points: 0},
+        screenTime: {created_at: '', goalID: 2, timeframe: 0, points: 0},
+        water: {created_at: '', goalID: 3, timeframe: 0, points: 0},
+        steps: {created_at: '', goalID: 4, timeframe: 0, points: 0},
+        work: {created_at: '', goalID: 5, timeframe: 0, points: 0},
+        mood: {created_at: '', goalID: 6, timeframe: 0, points: 0}}
 
 async function fetchGoals(){
-    try {
-        const response = await fetch("/get-goals", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
-
-        const data = await response.json();
-        console.log("Data received:", data);
-
-        // Initialize userGoals
-        const userGoalss ={}
-
-        data.forEach((goal) => {
-            userGoals[goal.category] = {
-                goal: goal.goal,
-                startDate: goal.created_at,
-                timeframe: goal.timeframe,
-            };
-        });
-
-        console.log(userGoalss);
-
-
-    }  catch (error) {
-    console.error("Error fetching data:", error);}
-}
-
-
-async function fetchData() {
     try {
         const response = await fetch("/get-data", {
             method: "GET",
@@ -49,9 +17,39 @@ async function fetchData() {
 
         const data = await response.json();
         console.log("Data received:", data);
-        loadUserData(data);
+
+        try {
+        const response = await fetch("/get-goals", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        const goalData = await response.json();
+
+        console.log("Goal data:", goalData);
+        goalData.forEach((goal) => {
+            userGoals[goal.category] = {
+                goalID: goal.goalID,
+                goal: goal.goal,
+                created_at: goal.created_at,
+                timeframe: goal.timeframe,
+                category: goal.category,
+                points: goal.points
+            };
+        });
+
+        console.log("goals", userGoals);
+
     }  catch (error) {
     console.error("Error fetching data:", error);}
+
+    loadUserData(data, userGoals);
+
+    }  catch (error) {
+    console.error("Error fetching data:", error);}
+
 }
 
 function calculateDaysElapsed(date) {
@@ -94,7 +92,7 @@ function updateTimeRemaining() {
     });
 }
 
-function loadUserData(entries) {
+function loadUserData(entries, userGoals) {
     // Load data into the goal cards
     document.getElementById("sleepText").innerText = `Current goal: ${userGoals.sleep.goal} hours in ${userGoals.sleep.timeframe} days`;
     document.getElementById("screenText").innerText = `Current goal: ${userGoals.screenTime.goal} hours in ${userGoals.screenTime.timeframe} days`;
@@ -320,5 +318,4 @@ function submitGoal() {
     }
 }
 
-    document.addEventListener("DOMContentLoaded", fetchData);
-    document.addEventListener("DOMContentLoaded", fetchGoals);
+document.addEventListener("DOMContentLoaded", fetchGoals);
