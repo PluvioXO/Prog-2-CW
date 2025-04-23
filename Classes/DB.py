@@ -201,13 +201,8 @@ class DB():
 
     def getUserGoals(self):
         try:
-            response = (
-                    self.supabase.table("goal")
-                    .select("*")
-                    .eq("userID", self.getUUID())
-                    .execute()
-                )
-            print("goals" + response)
+            response = self.supabase.from_("goal").select("*").eq("userID", self.getUUID()).execute()
+            print(response.data)
             return response.data
         except:
             print("Goals not found")
