@@ -171,7 +171,6 @@ class App():
                 global user_data
                 user_data = {
                     "userID": self.supabase.getUUID(),
-                    #"timestamp": datetime.datetime.now(tz=datetime.timezone.utc).isoformat(),
                     "sleep": float(request.form.get("sleep")),
                     "mood": int(request.form.get("mood")),
                     "screenTime": float(request.form.get("screen_time")),
@@ -309,6 +308,25 @@ class App():
 
             except:
                 return redirect(url_for('home'))
+
+        @self.app.route('/get-points', methods=['GET'])
+        def getPoints():
+            return self.supabase.getPoints()
+
+        @self.app.route('/add-points', methods=['GET', 'POST'])
+        def addPoints():
+            try:
+                data = request.json
+                points = data['totalPoints']
+                print("adding points", points)
+                self.supabase.addPoints(points)
+                return redirect(url_for('goals'))
+
+            except:
+                print('failed to add points')
+                return redirect(url_for('goals'))
+
+
 
     def run(self, debug=True):
         self.app.run(debug=debug)

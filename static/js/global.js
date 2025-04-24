@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     checkIfEntryExists();
     getPoints();
-    updatePointsDisplay();
 });
 
 async function checkIfEntryExists() {
@@ -33,12 +32,37 @@ function disableInputTab() {
 
 let userPoints = 0;
 
-function getPoints() {
+async function getPoints() {
+    try {
+        const response = await fetch("/get-points", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
 
+        data = await response.json();
+
+        userPoints = data[0].totalPoints;
+
+        console.log('userpoints', userPoints);
+        updatePointsDisplay();
+    }  catch (error) {
+    console.error("Error fetching points:", error);}
 }
 
 function updateUserPoints(points) {
-    userPoints += points;
+    //backend
+    data = {'totalPoints': points};
+    const response = fetch("/add-points", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+    })
+
+    getPoints();
 }
 
 function updatePointsDisplay() {
@@ -48,3 +72,21 @@ function updatePointsDisplay() {
         pointLabel.innerHTML = userPoints;
     }
 }
+
+// Function to handle the completion of a goal
+function handleGoalCompletion(points) {
+    updateUserPoints(points);
+    updatePointsDisplay();
+    alert("Well done! You've completed your goal! Start a new goal.");
+}
+
+// Update points display and add the functionality for goal completion
+function handleGoalCompletionWithCategory(category) {
+    const goalData = userGoals[category];
+    if (!goalData) return;
+
+    // Calculate points based on category and the timeframe
+    const points = goalData.points; // Adjust this logic as needed based on your backend
+    handleGoalCompletion(points);
+}
+

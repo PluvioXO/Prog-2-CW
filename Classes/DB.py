@@ -211,7 +211,6 @@ class DB():
             return response.data
         except Exception as e:
             print("Goals not found")
-            print(e)
             return False
 
     def deleteGoal(self, goalDict):
@@ -250,6 +249,35 @@ class DB():
             return True
         except:
             print("flop")
+            return False
+
+        return 0
+
+    def getPoints(self):
+        try:
+            response = (
+                    self.supabase.table("points")
+                    .select("*")
+                    .eq("userID", self.getUUID())
+                    .execute()
+                )
+            print(response)
+            return response.data
+        except:
+            return False
+
+    def addPoints(self, points):
+        try:
+            currentPoints = self.getPoints()[0]['totalPoints']
+            response = (
+                self.supabase.table("points")
+                .update({'totalPoints': int(points) + int(currentPoints)})
+                .eq("userID", self.getUUID())
+                .execute()
+            )
+            print(response)
+            return True
+        except:
             return False
 
         return 0
