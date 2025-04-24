@@ -207,10 +207,11 @@ class DB():
                     .eq("userID", self.getUUID())
                     .execute()
                 )
-            print("goals" + response)
+            print(response)
             return response.data
-        except:
+        except Exception as e:
             print("Goals not found")
+            print(e)
             return False
 
     def deleteGoal(self, goalDict):

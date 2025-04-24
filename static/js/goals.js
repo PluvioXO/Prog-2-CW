@@ -1,10 +1,10 @@
 const userGoals = {
-        sleep: {created_at: '', goalID: 1, timeframe: 0, points: 0},
-        screenTime: {created_at: '', goalID: 2, timeframe: 0, points: 0},
-        water: {created_at: '', goalID: 3, timeframe: 0, points: 0},
-        steps: {created_at: '', goalID: 4, timeframe: 0, points: 0},
-        work: {created_at: '', goalID: 5, timeframe: 0, points: 0},
-        mood: {created_at: '', goalID: 6, timeframe: 0, points: 0}}
+        sleep: {},
+        screenTime: {},
+        water: {},
+        steps: {},
+        work: {},
+        mood: {}}
 
 async function fetchGoals(){
     try {
@@ -59,65 +59,106 @@ function calculateDaysElapsed(date) {
     return Math.floor(diffTime / (1000 * 60 * 60 * 24));
 }
 
-function calculateProgress(entries, category) {
+function calculateProgress(entries, category, goalStartDate, timeframe) {
+    const currentDate = new Date();
+    const startDate = new Date(goalStartDate);
+    const endDate = new Date(startDate);
+    endDate.setDate(endDate.getDate() + timeframe);
+
+    if (currentDate > endDate) {
+        return 0; // Goal timeframe has ended
+    }
+
     let total = 0;
     entries.forEach(entry => {
-        total += entry[category];
+        const entryDate = new Date(entry.created_at);
+        if (entryDate >= startDate && entryDate <= currentDate) {
+            total += entry[category];
+        }
     });
     return total;
 }
 
-function calculateMoodProgress(entries) {
+function calculateMoodProgress(entries, goalStartDate, timeframe) {
+    const currentDate = new Date();
+    const startDate = new Date(goalStartDate);
+    const endDate = new Date(startDate);
+    endDate.setDate(endDate.getDate() + timeframe);
+
+    if (currentDate > endDate) {
+        return 0; // Goal timeframe has ended
+    }
+
     let total = 0;
-    let length = entries.length;
+    let count = 0;
     entries.forEach(entry => {
-        total += entry['mood'];
+        const entryDate = new Date(entry.created_at);
+        if (entryDate >= startDate && entryDate <= currentDate) {
+            total += entry.mood;
+            count++;
+        }
     });
-    return total / length;
+    return count > 0 ? total / count : 0;
 }
 
-function updateProgressBar(barId, goal, timeframe, currentProgress) {
+
+function updateProgressBar(barIdStr, goal, currentProgress) {
     let progress = (currentProgress / goal) * 100;
     if (progress > 100) progress = 100;
 
+    const barId = document.getElementById(barIdStr);
     barId.style.width = `${progress}%`;
+
+}
+
+function getCategoryIndex(category) {
+    const categories = ['sleep', 'screenTime', 'water', 'steps', 'work', 'mood'];
+    return categories.indexOf(category) + 1;
 }
 
 function updateTimeRemaining() {
-    const daysElapsed = calculateDaysElapsed(userGoals.sleep.startDate);
+    Object.entries(userGoals).forEach(([categoryName, goalData]) => {
+        const daysElapsed = calculateDaysElapsed(goalData.created_at);
+        const timeRemaining = Math.max(0, goalData.timeframe - daysElapsed);
 
-    Object.entries(userGoals).forEach(category => {
-        const timeRemaining = Math.max(0, category[1].timeframe - daysElapsed);
-        document.getElementById(`${category[0]}RemainingTime`).innerHTML = `Time remaining: ${timeRemaining} days`;
+        console.log(`${categoryName} - Time remaining: ${timeRemaining}`);
+
+        const element = document.getElementById(`${categoryName}RemainingTime`);
+        if (element) {
+            element.innerHTML = `Time remaining: ${timeRemaining} days`;
+        }
     });
 }
 
+
 function loadUserData(entries, userGoals) {
-    // Load data into the goal cards
-    document.getElementById("sleepText").innerText = `Current goal: ${userGoals.sleep.goal} hours in ${userGoals.sleep.timeframe} days`;
-    document.getElementById("screenText").innerText = `Current goal: ${userGoals.screenTime.goal} hours in ${userGoals.screenTime.timeframe} days`;
-    document.getElementById("waterText").innerText = `Current goal: ${userGoals.water.goal} liters in ${userGoals.water.timeframe} days`;
-    document.getElementById("stepText").innerText = `Current goal: ${userGoals.steps.goal} steps in ${userGoals.steps.timeframe} days`;
-    document.getElementById("workText").innerText = `Current goal: ${userGoals.work.goal} hours in ${userGoals.work.timeframe} days`;
-    document.getElementById("moodText").innerText = `Current goal: Mood rating of ${userGoals.mood.goal} in ${userGoals.mood.timeframe} days`;
+  const categoryUnits = {
+    sleep: 'hours',
+    screenTime: 'hours',
+    water: 'liters',
+    steps: 'steps',
+    work: 'hours',
+    mood: 'rating',
+  };
 
-    // Calculate the progress for each goal category
-    const sleepProgress = calculateProgress(entries, 'sleep');
-    const screenTimeProgress = calculateProgress(entries, 'screenTime');
-    const waterProgress = calculateProgress(entries, 'water');
-    const stepsProgress = calculateProgress(entries, 'steps');
-    const workProgress = calculateProgress(entries, 'work');
-    const moodProgress = calculateMoodProgress(entries);
+  Object.entries(userGoals).forEach(([category, goalData]) => {
+      const unit = categoryUnits[category] || '';
+      const goalTextElement = document.getElementById(`${category}Text`);
+      if (goalTextElement) {
+          goalTextElement.textContent = `Current goal: ${goalData.goal} ${unit} in ${goalData.timeframe} days`;
+      }
 
-    // Update progress bars based on the existing data
-    updateProgressBar(P1, userGoals.sleep.goal, userGoals.sleep.timeframe, sleepProgress);
-    updateProgressBar(P2, userGoals.screenTime.goal, userGoals.screenTime.timeframe, screenTimeProgress);
-    updateProgressBar(P3, userGoals.water.goal, userGoals.water.timeframe, waterProgress);
-    updateProgressBar(P4, userGoals.steps.goal, userGoals.steps.timeframe, stepsProgress);
-    updateProgressBar(P5, userGoals.work.goal, userGoals.work.timeframe, workProgress);
-    updateProgressBar(P6, userGoals.mood.goal, userGoals.mood.timeframe, moodProgress);
+      let progressValue = 0;
+      if (category === 'mood') {
+          progressValue = calculateMoodProgress(entries, goalData.created_at, goalData.timeframe);
+      } else {
+          progressValue = calculateProgress(entries, category, goalData.created_at, goalData.timeframe);
+      }
 
-    updateTimeRemaining();
+      updateProgressBar(`P${getCategoryIndex(category)}`, goalData.goal, progressValue);
+  });
+
+  updateTimeRemaining();
 }
 
 var currentGoalCategory = "";
@@ -163,7 +204,6 @@ function submitGoal() {
 
     let isValid = false;
     let goalText = "";
-    let progressKey = "";
     let maxGoal = 0;
 
     switch (currentGoalCategory) {
@@ -174,7 +214,7 @@ function submitGoal() {
                 userGoals.sleep.timeframe = timeframe;
                 goalText = `${goalValue} hours in ${timeframe} days`;
                 document.getElementById("sleepText").innerText = `Current goal: ${goalText}`;
-                updateProgressBar(P1, goalValue, timeframe, userGoals.sleep.currentProgress);
+                updateProgressBar('P1', goalValue, timeframe, userGoals.sleep.currentProgress);
                 isValid = true;
                 
                 //Backend stuff
@@ -197,7 +237,7 @@ function submitGoal() {
                 userGoals.screenTime.timeframe = timeframe;
                 goalText = `${goalValue} hours in ${timeframe} days`;
                 document.getElementById("screenText").innerText = `Current goal: ${goalText}`;
-                updateProgressBar(P2, goalValue, timeframe, userGoals.screenTime.currentProgress);
+                updateProgressBar("P2", goalValue, timeframe, userGoals.screenTime.currentProgress);
                 isValid = true;
 
 
@@ -222,7 +262,7 @@ function submitGoal() {
                 userGoals.water.timeframe = timeframe;
                 goalText = `${goalValue} litres in ${timeframe} days`;
                 document.getElementById("waterText").innerText = `Current goal: ${goalText}`;
-                updateProgressBar(P3, goalValue, timeframe, userGoals.water.currentProgress);
+                updateProgressBar('P3', goalValue, timeframe, userGoals.water.currentProgress);
                 isValid = true;
 
                 //Backend stuff
@@ -245,7 +285,7 @@ function submitGoal() {
                 userGoals.steps.timeframe = timeframe;
                 goalText = `${goalValue} steps in ${timeframe} days`;
                 document.getElementById("stepText").innerText = `Current goal: ${goalText}`;
-                updateProgressBar(P4, goalValue, timeframe, userGoals.steps.currentProgress);
+                updateProgressBar('P4', goalValue, timeframe, userGoals.steps.currentProgress);
                 isValid = true;
 
                 //Backend stuff
@@ -268,7 +308,7 @@ function submitGoal() {
                 userGoals.work.timeframe = timeframe;
                 goalText = `${goalValue} hours in ${timeframe} days`;
                 document.getElementById("workText").innerText = `Current goal: ${goalText}`;
-                updateProgressBar(P5, goalValue, timeframe, userGoals.work.currentProgress);
+                updateProgressBar('P5', goalValue, timeframe, userGoals.work.currentProgress);
                 isValid = true;
 
                 //Backend stuff
@@ -291,7 +331,7 @@ function submitGoal() {
                 userGoals.mood.timeframe = timeframe;
                 goalText = `Mood rating of ${goalValue} in ${timeframe} days`;
                 document.getElementById("moodText").innerText = `Current goal: ${goalText}`;
-                updateProgressBar(P6, goalValue, timeframe, userGoals.mood.currentProgress);
+                updateProgressBar('P6', goalValue, timeframe, userGoals.mood.currentProgress);
                 isValid = true;
 
                 //Backend stuff
